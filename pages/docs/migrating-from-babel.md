@@ -1,17 +1,17 @@
-# Migrating from Babel
+# 从 Babel 迁移
 
-SWC's [compilation](/docs/configuration/compilation) is intended to support all ECMAScript features. The SWC CLI is designed to be a drop-in replacement for Babel:
+SWC 的 [编译](/docs/configuration/compilation) 旨在支持所有 ECMAScript 特性。SWC CLI 旨在成为 Babel 的直接替代品：
 
 ```plaintext
-$ npx babel # old
-$ npx swc # new
+$ npx babel # 旧指令
+$ npx swc # 新指令
 ```
 
-## Comparison
+## 对比
 
-This table outlines the differences between SWC and Babel.
+这张表概述了 SWC 与 Babel 的不同。
 
-| babel package name                                       |        swc        |
+| babel 包名称                                             |        swc        |
 | -------------------------------------------------------- | :---------------: |
 | babel-plugin-external-helpers                            |        ✔️         |
 | babel-plugin-proposal-async-generator-functions          |        ✔️         |
