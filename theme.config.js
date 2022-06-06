@@ -9,8 +9,8 @@ const Vercel = ({ height = 20 }) => (
 
 export default {
   projectLink: "https://github.com/swc-project/swc",
-  docsRepositoryBase: "https://github.com/swc-project/website/blob/master",
-  titleSuffix: " – SWC",
+  docsRepositoryBase: "https://github.com/jacob-lcs/swc-website/blob/master",
+  titleSuffix: " - SWC",
   search: true,
   unstable_flexsearch: true,
   floatTOC: true,
@@ -21,7 +21,7 @@ export default {
         SWC
       </span>
       <span className="text-gray-600 font-normal hidden lg:!inline whitespace-no-wrap">
-        Speedy Web Compiler
+        极速 Web 编译器
       </span>
     </>
   ),
@@ -60,14 +60,14 @@ export default {
           name="description"
           content={
             meta.description ||
-            "SWC is an extensible Rust-based platform for the next generation of fast developer tools. It's used by tools like Next.js, Parcel, and Deno, as well as companies like Vercel, ByteDance, Tencent, Shopify, and more."
+            "SWC 是一个基于 Rust 的可拓展性的平台，用于下一代快速开发工具。它被 Next.js、Parcel 和 Deno 等工具使用，Vercel、字节跳动、腾讯、Shopify 等公司也在使用 SWC。"
           }
         />
         <meta
           name="og:description"
           content={
             meta.description ||
-            "SWC is an extensible Rust-based platform for the next generation of fast developer tools. It's used by tools like Next.js, Parcel, and Deno, as well as companies like Vercel, ByteDance, Tencent, Shopify, and more."
+            "SWC 是一个基于 Rust 的可拓展性的平台，用于下一代快速开发工具。它被 Next.js、Parcel 和 Deno 等工具使用，Vercel、字节跳动、腾讯、Shopify 等公司也在使用 SWC。"
           }
         />
         <meta name="twitter:card" content="summary_large_image" />
@@ -81,7 +81,7 @@ export default {
         />
         <meta
           name="og:title"
-          content={title ? title + " – SWC" : "SWC: Speedy Web Compiler"}
+          content={title ? title + "- SWC" : "SWC: 极速 Web 编译器"}
         />
         <meta
           name="og:image"
@@ -100,7 +100,7 @@ export default {
       </>
     );
   },
-  footerEditLink: "Edit this page on GitHub",
+  footerEditLink: "在 GitHub 上编辑此页面",
   footerText: () => (
     <a
       href="https://vercel.com/?utm_source=swc"

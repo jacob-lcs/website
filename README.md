@@ -1,6 +1,6 @@
-# SWC Website
+# SWC 中文站点
 
-## Built Using
+## 构建该站点使用的技术
 
 - [Next.js](https://nextjs.org?utm_source=swc)
 - [Nextra](https://nextra.vercel.app)
