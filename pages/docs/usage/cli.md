@@ -1,31 +1,31 @@
 # @swc/cli
 
-## Usage
+## 使用
 
-Run the following to download pre-built binaries:
+执行以下命令下载预构建的二进制文件：
 
 ```plaintext
 npm i -D @swc/cli @swc/core
 ```
 
-Then, you can transpile your files:
+然后你可以转换你的文件：
 
 ```sh
-# Transpile one file and emit to stdout
+# 转换一个文件并且输出到 stdout
 npx swc ./file.js
 
-# Transpile one file and emit to `output.js`
+# 转换一个文件并且输出到 `output.js`
 npx swc ./file.js -o output.js
 
-# Transpile and write to /output dir
+# 转换并将结果写入到 /output 文件夹
 npx swc ./my-dir -d output
 ```
 
-## Options
+## 配置项
 
 ### --filename (-f)
 
-Filename to use when reading from stdin. This will be used in source maps and errors.
+要从 stdin 中读取文件时使用的文件名。这将会被用于 source maps 和错误日志。
 
 ```sh
 npx swc -f input.js
@@ -33,7 +33,7 @@ npx swc -f input.js
 
 ### --config-file
 
-Path to a `.swcrc` file to use.
+要使用的 `.swcrc` 文件路径。
 
 ```sh
 npx swc input.js --config-file .swcrc
@@ -41,7 +41,7 @@ npx swc input.js --config-file .swcrc
 
 ### --env-name
 
-The name of the 'env' to use when loading configs and plugins. Defaults to the value of `SWC_ENV`, or else `NODE_ENV`, or else `development`.
+在加载配置以及插件时使用的 'env' 名称。默认取 `SWC_ENV` 的值，没有的话取 `NODE_ENV`，再没有取 `development`。
 
 ```sh
 npx swc input.js --env-name='test'
@@ -49,7 +49,7 @@ npx swc input.js --env-name='test'
 
 ### --no-swcrc
 
-Whether or not to look up `.swcrc` files.
+是否寻找 `.swcrc` 文件。
 
 ```sh
 npx swc input.js --no-swcrc
@@ -57,7 +57,7 @@ npx swc input.js --no-swcrc
 
 ### --ignore
 
-List of glob paths to **not** compile.
+**不进行** 编译的 glob 路径。
 
 ```sh
 npx swc src --ignore **/*.test.js
@@ -65,9 +65,9 @@ npx swc src --ignore **/*.test.js
 
 ### `--only`
 
-List of glob paths to **only** compile
+需要编译的 glob 路径
 
-Example:
+示例：
 
 ```sh
 npx swc src --only **/*.js
@@ -75,13 +75,13 @@ npx swc src --only **/*.js
 
 ### --watch (-w)
 
-To automatically recompile files on changes, install `chokidar`:
+文件变化时自动重新编译，安装 `chokidar`：
 
 ```sh
 npm i -D chokidar
 ```
 
-Then, add the `-w` flag:
+然后添加 `-w` 标识：
 
 ```sh
 npx swc input.js -w
@@ -89,7 +89,7 @@ npx swc input.js -w
 
 ### --quiet (-q)
 
-Suppress compilation output.
+消除编译输出。
 
 ```sh
 npx swc input.js -q
@@ -97,7 +97,7 @@ npx swc input.js -q
 
 ### --source-maps (-s)
 
-Values: `true|false|inline|both`
+可选值：`true|false|inline|both`
 
 ```sh
 npx swc input.js -s
@@ -105,7 +105,7 @@ npx swc input.js -s
 
 ### --source-map-target
 
-Define the `file` for the source map.
+为 source map 定义 `file`。
 
 ```sh
 npx swc input.js -s --source-map-target input.map.js
@@ -113,15 +113,15 @@ npx swc input.js -s --source-map-target input.map.js
 
 ### --source-file-name
 
-Set `sources[0]` on returned source map
+在返回的 source map 中设置 `sources[0]`
 
 ### --source-root
 
-The root from which all sources are relative.
+所有资源的根路径
 
 ### --out-file (-o)
 
-Compile all input files into a single file.
+将所有输入文件编译到一个文件中。
 
 ```sh
 npx swc input.js -o output.js
@@ -129,7 +129,7 @@ npx swc input.js -o output.js
 
 ### --out-dir (-d)
 
-Compile an input directory of modules into an output directory.
+编译一个输入文件夹到一个输出文件夹。
 
 ```sh
 npx swc src -d dist
@@ -137,7 +137,7 @@ npx swc src -d dist
 
 ### --copy-files (-D)
 
-When compiling a directory, copy over non-compilable files.
+当编译一个文件夹时，复制非可编译的文件。
 
 ```sh
 npx swc src --copy-files
@@ -145,7 +145,7 @@ npx swc src --copy-files
 
 ### --include-dotfiles
 
-Include dotfiles when compiling and copying non-compilable files.
+当编译以及复制非可编译的文件时包含点文件（dotfiles）
 
 ```sh
 npx swc src --include-dotfiles
@@ -153,7 +153,7 @@ npx swc src --include-dotfiles
 
 ### --config (-C)
 
-Override a config from `.swcrc` file.
+从 `.swcrc` 文件中复写一个配置。
 
 ```sh
 npx swc src -C module.type=amd -C module.moduleId=hello
@@ -161,7 +161,7 @@ npx swc src -C module.type=amd -C module.moduleId=hello
 
 ### --sync
 
-Invoke swc synchronously. Useful for debugging.
+同步调用 swc，Useful for debugging.
 
 ```sh
 npx swc src --sync
@@ -169,7 +169,7 @@ npx swc src --sync
 
 ### --log-watch-compilation
 
-Log a message when a watched file is successfully compiled.
+当文件成功编译时打印一条消息。
 
 ```sh
 npx swc input.js --log-watch-compilation
@@ -177,4 +177,4 @@ npx swc input.js --log-watch-compilation
 
 ### --extensions
 
-Use specific extensions.
+使用指定的拓展。
