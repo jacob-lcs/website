@@ -171,6 +171,44 @@ impl VisitMut for Transform {
 
 instead.
 
+### Test with `@swc/jest`
+
+You can test your transform with `@swc/jest` by adding your plugin to your `jest.config.js`.
+
+```js
+module.exports = {
+  rootDir: __dirname,
+  moduleNameMapper: {
+    "css-variable$": "../../dist",
+  },
+  transform: {
+    "^.+\\.(t|j)sx?$": [
+      "@swc/jest",
+      {
+        jsc: {
+          experimental: {
+            plugins: [
+              [
+                require.resolve(
+                  "../../swc/target/wasm32-wasi/release/swc_plugin_css_variable.wasm"
+                ),
+                {
+                  basePath: __dirname,
+                  displayName: true,
+                },
+              ],
+            ],
+          },
+        },
+      },
+    ],
+  },
+};
+
+```
+
+See https://github.com/jantimon/css-variable/blob/main/test/swc/jest.config.js
+
 ## Ownership model (of rust)
 
 > This section is not about `swc` itself. But this is described at here because it's the cause of almost all trickyness of APIs.
