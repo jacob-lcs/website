@@ -1,51 +1,51 @@
 import Callout from 'nextra-theme-docs/callout'
 
-# Implementing a plugin
+# 开发一个插件
 
-## Setup environment
+## 配置环境
 
-### Install required toolchain
+### 安装需要的工具链
 
-As plugin is written in the rust programming language and built as a `.wasm` file, you need to install rust toolchain and wasm target.
+因为插件使用 rust 编写并且要构建为 `.wasm` 文件，所以你需要安装 rust 工具链和 wasm target。
 
-#### Install rust
+#### 安装 rust
 
-You can follow instructions at ['Install Rust' page from the official rust website](https://www.rust-lang.org/tools/install)
+你可以跟随 [官方 rust 网站的 “安装 Rust” 页面](https://www.rust-lang.org/tools/install) 的中介绍
 
-#### Add wasm target to rust
+#### 将 wasm target 添加到 rust
 
-SWC supports two kinds of `.wasm` files.
-Those are
+SQC 支持两种类型的 `.wasm` 文件。
+它们是：
 
 - wasm32-wasi
 - wasm32-unknown-unknown
 
-In this guide, we will use `wasm-wasi` as a target.
+在这个指引中，我们将会使用 `wasm-wasi` 作为一个 target。
 
-#### Install `swc_cli`
+#### 安装 `swc_cli`
 
-You can install a rust-based CLI for SWC by doing
+你可以通过以下指令安装一个基于 rust 的 SWC CLI
 
 ```sh
 cargo install swc_cli
 ```
 
-#### Configuring IDE
+#### 配置 IDE
 
-If you are going to use vscode, it's recommended to install `rust-analyzer` extension.
-`rust-analyzer` is a [language server](https://microsoft.github.io/language-server-protocol/) for the rust programming langauge, which provides good features for code completion, code navigation, and code analysis.
+如果你打算使用 vscode，推荐安装 `rust-analyzer` 扩展。
+`rust-analyzer` 是为 rust 编程语言开发的 [language server](https://microsoft.github.io/language-server-protocol/)，可以为代码补全、导航和分析提供很好的支持。
 
-## Implementing simple plugin
+## 实现简单的插件
 
-### Create a project
+### 创建一个项目
 
-SWC CLI supports creating a new plugin project.
+SWC 支持创建一个新的插件项目。
 
-Run
+执行
 
 ```sh
 swc plugin new --target-type wasm32-wasi my-first-plugin
-# You should to run this
+# 你应该运行该命令
 rustup target add wasm32-wasi
 ```
 
