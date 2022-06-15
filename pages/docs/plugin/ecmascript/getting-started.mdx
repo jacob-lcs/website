@@ -161,7 +161,7 @@ impl VisitMut for TransformVisitor {
 ```
 
 `op!("===")` is a macro call, and it returns various types of operators.
-It returns [BinaryOp](https://rustdoc.swc.rs/swc_ecma_ast/enum.BinaryOp.html) in this case, because we provided `""==="`, which is a binary operator.
+It returns [BinaryOp](https://rustdoc.swc.rs/swc_ecma_ast/enum.BinaryOp.html) in this case, because we provided `"==="`, which is a binary operator.
 See [the rustdoc for op! macro](https://rustdoc.swc.rs/swc_ecma_ast/macro.op.html) for more details.
 
 If we run this plugin, we will get
