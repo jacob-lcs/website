@@ -2,11 +2,6 @@ import Callout from "nextra-theme-docs/callout";
 
 # Minification
 
-<Callout emoji="🚧">
-  This feature is still under construction. We are working on making the
-  smallest bundle size possible, without breaking changes.
-</Callout>
-
 Starting with `v1.2.67`, you can configure SWC to minify your code by enabling `minify` in your `.swcrc` file:
 
 ```json
@@ -125,6 +120,34 @@ Similar to [the mangle option](https://terser.org/docs/api-reference.html#mangle
 - `reserved`, Defaults to `[]`
 - `ie8`, Ignored.
 - `safari10`, Not implemented yet.
+
+#### `jsc.minify.mangle.properties`
+
+Type: `object`.
+
+Similar to [the mangle properties option](https://terser.org/docs/api-reference.html#mangle-properties-options) of `terser`.
+
+```json
+{
+  "jsc": {
+    "minify": {
+      "mangle":{
+        "properties":{
+          "reserved": ["foo", "bar"],
+          "undeclared":false,
+          "regex":"rust regex"
+        }
+      }
+    }
+  }
+}
+```
+
+- `reserved`: Don't use these names as properties.
+
+- `undeclared`: Mangle properties even if it's not delcared.
+
+- `regex`: Mangle properties only if it matches this regex
 
 ### `jsc.minify.format`
 

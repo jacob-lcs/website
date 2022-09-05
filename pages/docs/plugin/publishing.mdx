@@ -9,7 +9,8 @@ If you prefer reading codes, you can refer to [the repository for official plugi
 You can run your plugin as a wasm file by running
 
 ```sh
-cargo prepublish --release
+cargo build-wasi --release // build wasm32-wasi target binary
+cargo build-wasm32 --release // build wasm32-unknown-unknown target binary
 ```
 
 It will create `target/wasm32-wasi/release/your_plugin_name.wasm` or `target/wasm32-unknown-unknown/release/your_plugin_name.wasm`, depending on your config.
@@ -44,6 +45,9 @@ lto = true
 opt-level = "s"
 # Optimize for performance, this is default so you don't need to specify it
 # opt-level = "z"
+
+# Strip debug symbols
+strip = "symbols"
 ```
 
 ### Removing log for release mode

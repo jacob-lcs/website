@@ -8,8 +8,9 @@ SWC can be configured with an `.swcrc` file.
 
 Compilation works out of the box with SWC and does not require customization. Optionally, you can override the configuration. Here are the defaults:
 
-```json
+```jsonc
 {
+  "$schema": "https://json.schemastore.org/swcrc",
   "jsc": {
     "parser": {
       "syntax": "ecmascript",
@@ -30,7 +31,8 @@ Compilation works out of the box with SWC and does not require customization. Op
     "externalHelpers": false,
     // Requires v1.2.50 or upper and requires target to be es2016 or upper.
     "keepClassNames": false
-  }
+  },
+  "minify": false
 }
 ```
 

@@ -6,8 +6,6 @@ Starting with `v1.1.10`, you can now use `browserslist` to automatically configu
 
 ## Usage
 
-First, install `browserslist`. Then, update your `.swcrc`:
-
 ```json
 {
   "env": {
@@ -21,25 +19,6 @@ First, install `browserslist`. Then, update your `.swcrc`:
 ```
 
 ## Options
-
-### browserslist
-
-If you want to use [browserlists](https://github.com/browserslist/browserslist) with SWC, omit `targets` in your `.swcrc`:
-
-```json
-{
-  "env": {
-    "coreJs": "3.22"
-  }
-}
-```
-
-`browserlists` can be configured in multiple ways:
-
-- `.browserslistrc`
-- `browserslist` field in package.json
-
-You can use [path](#path) to specify a custom path to load these configuration files.
 
 ### targets
 

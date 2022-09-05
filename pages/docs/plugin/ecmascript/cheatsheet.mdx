@@ -33,7 +33,7 @@ See [the rustdoc for `Ident`](https://rustdoc.swc.rs/swc_ecma_ast/struct.Ident.h
 
 ### Error reporting
 
-See [rustdoc for `swc_common::erorrs::Handler](https://rustdoc.swc.rs/swc_common/errors/struct.Handler.html).
+See [rustdoc for `swc_common::errors::Handler`](https://rustdoc.swc.rs/swc_common/errors/struct.Handler.html).
 
 ### Comparing `JsWord` with `&str`
 
@@ -49,7 +49,8 @@ For performance reason, all expressions are stored in a boxed form. (`Box<Expr>`
 SWC stores callee of call expressions as a `Callee` enum, and it has `Box<Expr>`.
 
 ```rust
-use swc_plugin::*;
+use swc_core::ast::*;
+use swc_core::visit::{VisitMut, VisitMutWith};
 
 struct MatchExample;
 
@@ -66,6 +67,22 @@ impl VisitMut for MatchExample {
     }
 }
 
+
+```
+
+### Changing AST type
+
+If you want to change `ExportDefaultDecl` to `ExportDefaultExpr`, you should do it from `visit_mut_module_decl`.
+
+### Inserting new nodes
+
+If you want to inject a new `Stmt`, you need to store the value in the sturct, and inject it from `visit_mut_stmts` or `visit_mut_module_items`.
+See [a destructuring core transform](https://github.com/swc-project/swc/blob/6416c675de14b3acec558ab7b4ec69afcd71fa11/crates/swc_ecma_transforms_compat/src/es2015/destructuring.rs#L1025-L1034).
+
+```rust
+struct MyPlugin {
+    stmts: Vec<Stmt>,
+}
 
 ```
 
@@ -209,6 +226,12 @@ module.exports = {
 
 See https://github.com/jantimon/css-variable/blob/main/test/swc/jest.config.js
 
+### `Path` is one of unix, while FileName can be one of host OS
+
+This is because linux version of `Path` code is used while compiling to wasm.
+So you may need to replace `\\` with `/` in your plugin.
+As `/` is a valid path separator in windows, it's valid thing to do.
+
 ## Ownership model (of rust)
 
 > This section is not about `swc` itself. But this is described at here because it's the cause of almost all trickyness of APIs.
@@ -243,7 +266,8 @@ This is typically more convinient.
 
 ```rust
 
-use swc_plugin::*;
+use swc_core::ast::*;
+use swc_core::visit::{VisitMut,VsiitMutWith};
 
 impl VisitMut for Remover {
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
@@ -333,7 +357,8 @@ This can be useful if you want to delete the node only if the parent node is spe
 e.g. You don't want to touch the variables in for loops while deleting free variable statements.
 
 ```rust
-use swc_plugin::*;
+use swc_core::ast::*;
+use swc_core::visit::{VisitMut,VsiitMutWith};
 
 struct Remover;
 

@@ -4,6 +4,5 @@
   "wasm": "@swc/wasm",
   "jest": "@swc/jest",
   "swc-loader": "swc-loader",
-  "bundling": "打包",
-  "plugins": "插件"
+  "bundling": "打包"
 }

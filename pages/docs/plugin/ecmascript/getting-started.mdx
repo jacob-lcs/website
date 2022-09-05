@@ -131,7 +131,10 @@ foo === bar;
 你可以这样做：
 
 ```rust
-use swc_plugin::ast::*;
+use swc_core::{
+    ast::*,
+    visit::{VisitMut, VisitMutWith},
+};
 
 impl VisitMut for TransformVisitor {
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
@@ -146,15 +149,18 @@ impl VisitMut for TransformVisitor {
 让我们用二元运算符来缩小范围。Let's narrow down it using the binary operator.
 
 ```rust
-use swc_plugin::ast::*;
-use swc_plugin::util::swc_common::Spanned;
+use swc_core::{
+    ast::*,
+    visit::{VisitMut, VisitMutWith},
+    common::Spanned,
+};
 
 impl VisitMut for TransformVisitor {
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
 
         if e.op == op!("===") {
-            e.left = Ident::new("kdy1".into(), e.left.span()).into();
+            e.left = Box::new(Ident::new("kdy1".into(), e.left.span()).into());
         }
     }
 }
@@ -174,6 +180,18 @@ kdy1 === bar;
 
 You can simply run `cargo test` to test your plugins.
 SWC also provides a utility to ease fixture testing.
+
+You can easily verify the input and output of the transform.
+
+```rust
+test!(
+    Default::default(),
+    |_| as_folder(TransformVisitor),
+    boo,
+    r#"foo === bar;"#,
+    r#"kdy1 === bar;"#
+);
+```
 
 You can take a look at [the real fixture test for typescript type stripper](https://github.com/swc-project/swc/blob/c0abdb394a94bcbc7ea9602163e6ce032c89b996/crates/swc_ecma_transforms_typescript/tests/strip.rs#L4514-L4527).
 
@@ -213,6 +231,6 @@ e.g. `RUST_LOG=trace cargo test` will print all logs, including `trace` logs.
 If you want, you can remove logging for your plugin by using cargo features of `tracing`.
 See [the documentation for it](https://docs.rs/crate/tracing/latest/features).
 
-## Publising your plugin
+## Publishing your plugin
 
 Please see [plugin publishing guide](../publishing)

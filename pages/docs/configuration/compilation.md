@@ -25,7 +25,8 @@ Compilation works out of the box with SWC and does not require customization. Op
     "externalHelpers": false,
     // Requires v1.2.50 or upper and requires target to be es2016 or upper.
     "keepClassNames": false
-  }
+  },
+  "isModule": false
 }
 ```
 
@@ -511,3 +512,10 @@ Defaults to `true`. If you want to make `swc` store contents of files into sourc
   "inlineSourcesContent": true
 }
 ```
+
+## isModule
+
+Possible values: `true`, `false`, `"unknown"`
+
+Used to treat input as a module or script.
+If this is set to `unknown`, it will be `Module` if it's esm and `Script` otherwise.

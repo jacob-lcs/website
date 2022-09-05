@@ -4,8 +4,12 @@
 
 执行以下命令下载预构建的二进制文件：
 
-```plaintext
+```sh
+# if you use npm
 npm i -D @swc/cli @swc/core
+
+# if you use yarn
+yarn add -D @swc/cli @swc/core
 ```
 
 然后你可以转换你的文件：
