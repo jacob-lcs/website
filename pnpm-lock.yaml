@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 specifiers:
   '@reach/skip-nav': ^0.16.0
@@ -16,21 +16,21 @@ specifiers:
   tailwindcss: ^2.2.19
 
 dependencies:
-  '@reach/skip-nav': 0.16.0_sfoxds7t5ydpegc3knd667wn6m
+  '@reach/skip-nav': 0.16.0_react-dom@17.0.2+react@17.0.2
   chart.js: 3.7.1
   focus-visible: 5.2.0
   markdown-to-jsx: 6.11.4_react@17.0.2
-  next: 12.0.10_sfoxds7t5ydpegc3knd667wn6m
-  nextra: 2.0.0-alpha.54_react@17.0.2
-  nextra-theme-docs: 2.0.0-alpha.54_me4qx2mswy2knchxyjkvkr5vlm
+  next: 12.0.10_react-dom@17.0.2+react@17.0.2
+  nextra: 2.0.0-alpha.56_react@17.0.2
+  nextra-theme-docs: 2.0.0-alpha.56_61390be992b634a688f7c2555547b55b
   react: 17.0.2
-  react-chartjs-2: 3.3.0_f3vhypd63pitpjhosy5yv4kn4a
+  react-chartjs-2: 3.3.0_chart.js@3.7.1+react@17.0.2
   react-dom: 17.0.2_react@17.0.2
 
 devDependencies:
   autoprefixer: 10.4.2_postcss@8.4.6
   postcss: 8.4.6
-  tailwindcss: 2.2.19_qm7bagfnbv4vjkuayu3hle4sne
+  tailwindcss: 2.2.19_833e1018ad0d7954aa80c53675939269
 
 packages:
 
@@ -62,7 +62,7 @@ packages:
       regenerator-runtime: 0.13.9
     dev: false
 
-  /@headlessui/react/1.6.1_sfoxds7t5ydpegc3knd667wn6m:
+  /@headlessui/react/1.6.1_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-gMd6uIs1U4Oz718Z5gFoV0o/vD43/4zvbyiJN9Dt7PK9Ubxn+TmJwTmYwyNJc5KxxU1t0CmgTNgwZX9+4NjCnQ==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -347,19 +347,19 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@reach/skip-nav/0.16.0_sfoxds7t5ydpegc3knd667wn6m:
+  /@reach/skip-nav/0.16.0_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-SY4PdNx+hQHbeOr/+qLc+QXdRt9NTVlt0r737bOqY1WURGBIEN9sGgsmIsHluP1/bQuAe0JKdOJ/tXiwQ3Z3ug==}
     peerDependencies:
       react: ^16.8.0 || 17.x
       react-dom: ^16.8.0 || 17.x
     dependencies:
-      '@reach/utils': 0.16.0_sfoxds7t5ydpegc3knd667wn6m
+      '@reach/utils': 0.16.0_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       tslib: 2.3.1
     dev: false
 
-  /@reach/utils/0.16.0_sfoxds7t5ydpegc3knd667wn6m:
+  /@reach/utils/0.16.0_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-PCggBet3qaQmwFNcmQ/GqHSefadAFyNCUekq9RrWoaU9hh/S4iaFgf2MBMdM47eQj5i/Bk0Mm07cP/XPFlkN+Q==}
     peerDependencies:
       react: ^16.8.0 || 17.x
@@ -689,7 +689,7 @@ packages:
     dev: true
 
   /color-name/1.1.3:
-    resolution: {integrity: sha1-p9BVi9icQveV3UIyj3QIMcpTvCU=}
+    resolution: {integrity: sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==}
 
   /color-name/1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
@@ -830,7 +830,7 @@ packages:
     dev: true
 
   /escape-string-regexp/1.0.5:
-    resolution: {integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=}
+    resolution: {integrity: sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==}
     engines: {node: '>=0.8.0'}
 
   /escape-string-regexp/5.0.0:
@@ -1011,7 +1011,7 @@ packages:
     dev: false
 
   /has-flag/3.0.0:
-    resolution: {integrity: sha1-tdRU3CGZriJWmfNGfloH87lVuv0=}
+    resolution: {integrity: sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==}
     engines: {node: '>=4'}
     dev: true
 
@@ -1832,19 +1832,19 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  /next-themes/0.2.0_me4qx2mswy2knchxyjkvkr5vlm:
+  /next-themes/0.2.0_61390be992b634a688f7c2555547b55b:
     resolution: {integrity: sha512-myhpDL4vadBD9YDSHiewqvzorGzB03N84e+3LxCwHRlM/hiBOaW+UsKsQojQAzC7fdcJA0l2ppveXcYaVV+hxQ==}
     peerDependencies:
       next: '*'
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 12.0.10_sfoxds7t5ydpegc3knd667wn6m
+      next: 12.0.10_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
-  /next/12.0.10_sfoxds7t5ydpegc3knd667wn6m:
+  /next/12.0.10_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-1y3PpGzpb/EZzz1jgne+JfZXKAVJUjYXwxzrADf/LWN+8yi9o79vMLXpW3mevvCHkEF2sBnIdjzNn16TJrINUw==}
     engines: {node: '>=12.22.0'}
     hasBin: true
@@ -1886,24 +1886,24 @@ packages:
       - babel-plugin-macros
     dev: false
 
-  /nextra-theme-docs/2.0.0-alpha.54_me4qx2mswy2knchxyjkvkr5vlm:
-    resolution: {integrity: sha512-CPpEL9WNXBI+gOZze2582h4y5+/NyVVycRb31CCjBYNcCNhSULCIJ5P6lS79lU2E2w9xgSAigY8sa5+EydMe0g==}
+  /nextra-theme-docs/2.0.0-alpha.56_61390be992b634a688f7c2555547b55b:
+    resolution: {integrity: sha512-2s7i1r1AqRzhTD6o2ZvUbDXAkhH5mGhP6Af3I3Lurqc96ENRFljDkV/2EYrman1iZ2ZGVo/ql38dsfh1dHUKbg==}
     peerDependencies:
       next: '>=9.5.3'
       react: '>=16.13.1'
       react-dom: '>=16.13.1'
     dependencies:
-      '@headlessui/react': 1.6.1_sfoxds7t5ydpegc3knd667wn6m
+      '@headlessui/react': 1.6.1_react-dom@17.0.2+react@17.0.2
       '@mdx-js/react': 2.1.1_react@17.0.2
-      '@reach/skip-nav': 0.16.0_sfoxds7t5ydpegc3knd667wn6m
+      '@reach/skip-nav': 0.16.0_react-dom@17.0.2+react@17.0.2
       classnames: 2.3.1
       flexsearch: 0.7.21
       focus-visible: 5.2.0
       github-slugger: 1.4.0
       intersection-observer: 0.12.0
       match-sorter: 4.2.1
-      next: 12.0.10_sfoxds7t5ydpegc3knd667wn6m
-      next-themes: 0.2.0_me4qx2mswy2knchxyjkvkr5vlm
+      next: 12.0.10_react-dom@17.0.2+react@17.0.2
+      next-themes: 0.2.0_61390be992b634a688f7c2555547b55b
       parse-git-url: 1.0.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -2163,7 +2163,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /react-chartjs-2/3.3.0_f3vhypd63pitpjhosy5yv4kn4a:
+  /react-chartjs-2/3.3.0_chart.js@3.7.1+react@17.0.2:
     resolution: {integrity: sha512-4Mt0SR2aiUbWi/4762odRBYSnbNKSs4HWc0o3IW43py5bMfmfpeZU95w6mbvtuLZH/M3GsPJMU8DvDc+5U9blQ==}
     peerDependencies:
       chart.js: ^3.5.0
@@ -2445,7 +2445,7 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /tailwindcss/2.2.19_qm7bagfnbv4vjkuayu3hle4sne:
+  /tailwindcss/2.2.19_833e1018ad0d7954aa80c53675939269:
     resolution: {integrity: sha512-6Ui7JSVtXadtTUo2NtkBBacobzWiQYVjYW0ZnKaP9S1ZCKQ0w7KVNz+YSDI/j7O7KCMHbOkz94ZMQhbT9pOqjw==}
     engines: {node: '>=12.13.0'}
     hasBin: true
