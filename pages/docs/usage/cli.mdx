@@ -1,16 +1,28 @@
+import { Callout, Tabs, Tab } from 'nextra-theme-docs'
+
 # @swc/cli
 
 ## 使用
 
 执行以下命令下载预构建的二进制文件：
 
-```sh
-# if you use npm
-npm i -D @swc/cli @swc/core
-
-# if you use yarn
-yarn add -D @swc/cli @swc/core
-```
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tab>
+    ```bash copy
+    pnpm i -D @swc/cli @swc/core
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    npm i -D @swc/cli @swc/core
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    yarn add -D @swc/cli @swc/core
+    ```
+  </Tab>
+</Tabs>
 
 然后你可以转换你的文件：
 

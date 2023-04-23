@@ -8,7 +8,7 @@ These are the core SWC APIs mainly useful for build tool authors.
 
 `@swc/core` provides appropriate `.d.ts` file, so you may not need this. Returns `Promise<{ code: string, map?: string }>`
 
-```js
+```js copy
 const swc = require("@swc/core");
 
 swc
@@ -49,7 +49,7 @@ Returns `{ code: string, map?: string }`
 
 Returns `Promise<Script | Module>`
 
-```ts
+```ts copy
 const swc = require('@swc/core')
 
 swc
@@ -282,6 +282,7 @@ export interface TerserManglePropertiesOptions {
 Returns `Output`
 
 ## Options
+
 ```ts
 /**
  * Programmatic options.

@@ -2,7 +2,8 @@
   "index": {
     "title": "介绍",
     "type": "page",
-    "hidden": true
+    "hidden": true,
+    "display": "hidden"
   },
   "docs": {
     "title": "文档",

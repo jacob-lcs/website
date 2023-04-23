@@ -1,4 +1,4 @@
-import Callout from 'nextra-theme-docs/callout'
+import { Callout, Tabs, Tab } from 'nextra-theme-docs'
 import Link from 'next/link'
 
 # 快速开始
@@ -9,13 +9,27 @@ import Link from 'next/link'
 
 除此之外，你可以执行以下命令下载预构建的二进制文件：
 
-```plaintext
-npm i -D @swc/cli @swc/core
-```
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tab>
+    ```bash
+    pnpm add -D @swc/cli @swc/core
+    ```
+  </Tab>
+    <Tab>
+    ```bash
+    npm i -D @swc/cli @swc/core
+    ```
+  </Tab>
+    <Tab>
+    ```bash
+    yarn add -D @swc/cli @swc/core
+    ```
+  </Tab>
+</Tabs>
 
 然后，你可以转换你的第一个文件并输出到 `stdout`：
 
-```plaintext
+```bash
 npx swc ./file.js
 ```
 

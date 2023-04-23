@@ -1,4 +1,4 @@
-import Callout from 'nextra-theme-docs/callout'
+import { Callout } from 'nextra-theme-docs'
 
 # Configuring SWC
 
@@ -8,7 +8,7 @@ SWC can be configured with an `.swcrc` file.
 
 Compilation works out of the box with SWC and does not require customization. Optionally, you can override the configuration. Here are the defaults:
 
-```jsonc
+```jsonc filename=".swcrc" copy
 {
   "$schema": "https://json.schemastore.org/swcrc",
   "jsc": {
@@ -40,13 +40,13 @@ Read more about [configuring compilation](/docs/configuration/compilation).
 
 ## Supported Browsers
 
-Starting with `v1.1.10`, you can now use `browserslist` to automaticallly configure supported browsers.
+Starting with `v1.1.10`, you can now use `browserslist` to automatically configure supported browsers.
 
 ### Usage
 
 First, install `browserslist`. Then, update your `.swcrc`:
 
-```json
+```json filename=".swcrc" copy
 {
   "env": {
     "targets": {
@@ -68,7 +68,7 @@ Read more about [configuring modules](/docs/configuration/modules).
 
 Starting with `v1.2.67`, you can configure SWC to minify your code by enabling `minify` in your `.swcrc` file:
 
-```json
+```json filename=".swcrc" copy
 {
   "minify": true
 }

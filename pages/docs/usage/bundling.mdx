@@ -1,4 +1,4 @@
-import Callout from 'nextra-theme-docs/callout'
+import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 # Bundling (swcpack)
 
@@ -14,13 +14,27 @@ View a [basic example of bundling](https://github.com/swc-project/cli/tree/maste
 
 ## Usage
 
-```sh
-npm i --save-dev @swc/cli @swc/core
-```
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tab>
+    ```bash copy
+    pnpm i -D @swc/cli @swc/core
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    npm i -D @swc/cli @swc/core
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    yarn add -D @swc/cli @swc/core
+    ```
+  </Tab>
+</Tabs>
 
 Create a `spack.config.js` file and run:
 
-```plaintext
+```bash
 npx spack
 ```
 
@@ -34,25 +48,21 @@ To see all options, [view the configuration](/docs/configuration/bundling).
 
 Just like `rollup`, SWC emits compact output.
 
-`a.js`
-
-```js
+```js filename="a.js"
 console.log("loading A");
 export function a() {
   console.log("use!");
 }
 ```
 
-`lib.js`
-
-```js
+```js filename="lib.js"
 import { a } from "./a";
 a();
 ```
 
 becomes:
 
-```js
+```js filename="output.js"
 console.log("loading A");
 function a() {
   console.log("use!");
@@ -88,14 +98,14 @@ This preserves all side effects.
 
 SWC supports importing CommonJS modules and emits more compact output than webpack.
 
-```js
+```js filename="source.js"
 import * as lib from "lib";
 console.log(lib); // Prevent dce
 ```
 
 If the `lib` above is a CommonJS module, it's transcompiled to:
 
-```js
+```js filename="output.js"
 const load = __spack_require.bind(void 0, function (module, exports) {
   // Code from lib goes here
 });
@@ -112,7 +122,7 @@ console.log(lib); // Prevent dce
 
 The tree shaking described above is using the dead code elimination pass. Currently, SWC can deduce:
 
-```js
+```js filename="source.js"
 let b = 2;
 let a = 1;
 if (b) {
@@ -127,7 +137,7 @@ console.log(c);
 
 into:
 
-```js
+```js filename="output.js"
 console.log(3);
 ```
 
@@ -137,9 +147,7 @@ Performance is a priority for SWC. It's very fast because it uses all CPU cores 
 
 ### Multiple Entries Support
 
-`spack.config.js`:
-
-```js
+```js filename="spack.config.js"
 const { config } = require("@swc/core/spack");
 
 module.exports = config({

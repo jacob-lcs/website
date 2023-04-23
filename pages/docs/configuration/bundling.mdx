@@ -1,4 +1,4 @@
-import Callout from 'nextra-theme-docs/callout'
+import { Callout } from 'nextra-theme-docs'
 
 # Bundling Configuration
 
@@ -16,8 +16,7 @@ View a [basic example of bundling](https://github.com/swc-project/cli/tree/maste
 
 You can configure bundling using `spack.config.js` with similar options to webpack. In the future, we are exploring a webpack compatible plugin system.
 
-```js
-// spack.config.js
+```js filename="spack.config.js" copy
 
 module.exports = {
   entry: {
@@ -33,7 +32,7 @@ module.exports = {
 
 If you want auto-completion or type checking for configuration, you can wrap the export with a `config` function from `@swc/core/spack`. It's an identity function with type annotation.
 
-```ts
+```ts filename="spack.config.js" copy
 const { config } = require("@swc/core/spack");
 
 module.exports = config({
@@ -64,7 +63,7 @@ Determines the entry of bundling. You may specify a file or a map of bundle name
 
 You can change destination directory of the bundler using `output`.
 
-```ts
+```ts filename="spack.config.js" copy
 const { config } = require("@swc/core/spack");
 
 module.exports = config({

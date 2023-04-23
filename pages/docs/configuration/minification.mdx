@@ -1,10 +1,17 @@
-import Callout from "nextra-theme-docs/callout";
+import { Callout } from 'nextra-theme-docs';
 
 # Minification
 
+<Callout emoji="⚠️">
+  This section is for people who want to use swc as a last step of the build process.
+  If you want to use swc minifier with a bundler, please see its documentation for swcMinify.
+  <br/>
+  <a href="https://webpack.js.org/plugins/terser-webpack-plugin/#swc">Webpack doc</a>
+</Callout>
+
 Starting with `v1.2.67`, you can configure SWC to minify your code by enabling `minify` in your `.swcrc` file:
 
-```json
+```json filename=".swcrc" copy
 {
   // Enable minification
   "minify": true,
@@ -24,7 +31,7 @@ Starting with `v1.2.67`, you can configure SWC to minify your code by enabling `
 
 ### Note about comments
 
-If you set `jsc.minify.compress` to `true` or `{}`, SWC will remove all comments.
+If you set `jsc.minify.compress` to `true` or `{}`, SWC will preserve only license comments.
 If you don't want this, modify `jsc.minify.format`.
 
 ### `jsc.minify.compress`
@@ -33,7 +40,7 @@ Type: `boolean | object`.
 
 Similar to [the compress option](https://terser.org/docs/api-reference.html#compress-options) of `terser`.
 
-```json
+```json filename=".swcrc" copy
 {
   "jsc": {
     "minify": {
@@ -64,7 +71,7 @@ Similar to [the compress option](https://terser.org/docs/api-reference.html#comp
 - `hoist_vars`, defaults to `false`.
 - `ie8`, Ignored.
 - `if_return`, defaults to `true`.
-- `inline`, defaults to ``.
+- `inline`, defaults to `true`.
 - `join_vars`, defaults to `true`.
 - `keep_classnames`, defaults to `false`.
 - `keep_fargs`, defaults to `false`.
@@ -76,7 +83,7 @@ Similar to [the compress option](https://terser.org/docs/api-reference.html#comp
 - `pure_getters`, defaults to ``.
 - `pure_funcs`, defaults to `[]`. Type is an array of string.
 - `reduce_funcs`, defaults to `false`.
-- `reduce_vars`, defaults to `false`.
+- `reduce_vars`, defaults to `true`.
 - `sequences`, defaults to `true`.
 - `side_effects`, defaults to `true`.
 - `switches`, defaults to `true`.
@@ -102,7 +109,7 @@ Type: `boolean | object`.
 
 Similar to [the mangle option](https://terser.org/docs/api-reference.html#mangle-options) of `terser`.
 
-```json
+```json filename=".swcrc" copy
 {
   "jsc": {
     "minify": {
@@ -112,14 +119,14 @@ Similar to [the mangle option](https://terser.org/docs/api-reference.html#mangle
 }
 ```
 
-- `properties`, Defaults to `false`, and `true` is identical to `{}`.
+- `props`, Defaults to `false`, and `true` is identical to `{}`.
 - `topLevel`, Defaults to `true`. Aliased as `toplevel` for compatibility with `terser`.
-- `keepClassnames`, Defaults to `false`. Aliased as `keep_classnames` for compatibility with `terser`.
-- `keepFnames`, Defaults to `false`.
+- `keepClassNames`, Defaults to `false`. Aliased as `keep_classnames` for compatibility with `terser`.
+- `keepFnNames`, Defaults to `false`.
 - `keepPrivateProps`, Defaults to `false`. Aliased as `keep_private_props` for compatibility with `terser`.
 - `reserved`, Defaults to `[]`
 - `ie8`, Ignored.
-- `safari10`, Not implemented yet.
+- `safari10`, Defaults to `false`.
 
 #### `jsc.minify.mangle.properties`
 
@@ -127,7 +134,7 @@ Type: `object`.
 
 Similar to [the mangle properties option](https://terser.org/docs/api-reference.html#mangle-properties-options) of `terser`.
 
-```json
+```json filename=".swcrc" copy
 {
   "jsc": {
     "minify": {
@@ -145,7 +152,7 @@ Similar to [the mangle properties option](https://terser.org/docs/api-reference.
 
 - `reserved`: Don't use these names as properties.
 
-- `undeclared`: Mangle properties even if it's not delcared.
+- `undeclared`: Mangle properties even if it's not declared.
 
 - `regex`: Mangle properties only if it matches this regex
 
@@ -226,7 +233,7 @@ Returns `{ code: string, map: string }`.
 
 You can reduce build time and override Terser without needing a library to update their dependencies through [yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/). Example `package.json` would include:
 
-```json
+```json filename="package.json"
 {
   "resolutions": { "terser": "npm:@swc/core" }
 }

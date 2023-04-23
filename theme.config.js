@@ -1,3 +1,4 @@
+import { useConfig } from "nextra-theme-docs";
 const Vercel = ({ height = 20 }) => (
   <svg height={height} viewBox="0 0 283 64" fill="none">
     <path
@@ -7,13 +8,100 @@ const Vercel = ({ height = 20 }) => (
   </svg>
 );
 
+const Head = () => {
+  const { frontMatter, title } = useConfig();
+  return (
+    <>
+      {/* Favicons, meta */}
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/favicon/apple-touch-icon.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/favicon/favicon-32x32.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/favicon/favicon-16x16.png"
+      />
+      <link rel="manifest" href="/favicon/site.webmanifest" />
+      <link
+        rel="mask-icon"
+        href="/favicon/safari-pinned-tab.svg"
+        color="#000000"
+      />
+      <meta name="msapplication-TileColor" content="#ffffff" />
+      <meta name="theme-color" content="#ffffff" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta httpEquiv="Content-Language" content="en" />
+      <meta
+        name="description"
+        content={
+          frontMatter?.description ||
+          "SWC is an extensible Rust-based platform for the next generation of fast developer tools. It's used by tools like Next.js, Parcel, and Deno, as well as companies like Vercel, ByteDance, Tencent, Shopify, and more."
+        }
+      />
+      <meta
+        name="og:description"
+        content={
+          frontMatter.description ||
+          "SWC is an extensible Rust-based platform for the next generation of fast developer tools. It's used by tools like Next.js, Parcel, and Deno, as well as companies like Vercel, ByteDance, Tencent, Shopify, and more."
+        }
+      />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@kdy1dev" />
+      <meta
+        name="twitter:image"
+        content={
+          frontMatter.image ||
+          "https://user-images.githubusercontent.com/9113740/140682117-5e9f460e-c8f1-447c-88a0-e75f80779260.png"
+        }
+      />
+      <meta
+        name="og:title"
+        content={title ? title + " – SWC" : "SWC: Speedy Web Compiler"}
+      />
+      <meta
+        name="og:image"
+        content={
+          frontMatter.image ||
+          "https://user-images.githubusercontent.com/9113740/140682117-5e9f460e-c8f1-447c-88a0-e75f80779260.png"
+        }
+      />
+      <meta name="apple-mobile-web-app-title" content="SWC" />
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"
+        media="print"
+        onLoad="this.media='all'"
+      />
+    </>
+  );
+};
+/** @type import('nextra-theme-docs').DocsThemeConfig */
 export default {
-  projectLink: "https://github.com/swc-project/swc",
+  project: {
+    link: "https://github.com/swc-project/swc",
+  },
+  editLink: {
+    text: "Edit this page on GitHub",
+  },
   docsRepositoryBase: "https://github.com/jacob-lcs/swc-website/blob/master",
-  titleSuffix: " - SWC",
-  search: true,
-  unstable_flexsearch: true,
-  floatTOC: true,
+  useNextSeoProps() {
+    return {
+      titleTemplate: "%s – SWC",
+    };
+  },
+  toc: {
+    float: true,
+  },
+  head: <Head />,
   logo: () => (
     <>
       <img src="/logo.png" width="50px" loading="lazy" />
@@ -25,93 +113,19 @@ export default {
       </span>
     </>
   ),
-  head: ({ title, meta }) => {
-    return (
-      <>
-        {/* Favicons, meta */}
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/favicon/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/favicon/site.webmanifest" />
-        <link
-          rel="mask-icon"
-          href="/favicon/safari-pinned-tab.svg"
-          color="#000000"
-        />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="theme-color" content="#ffffff" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta httpEquiv="Content-Language" content="en" />
-        <meta
-          name="description"
-          content={
-            meta.description ||
-            "SWC 是一个基于 Rust 的可拓展性的平台，用于下一代快速开发工具。它被 Next.js、Parcel 和 Deno 等工具使用，Vercel、字节跳动、腾讯、Shopify 等公司也在使用 SWC。"
-          }
-        />
-        <meta
-          name="og:description"
-          content={
-            meta.description ||
-            "SWC 是一个基于 Rust 的可拓展性的平台，用于下一代快速开发工具。它被 Next.js、Parcel 和 Deno 等工具使用，Vercel、字节跳动、腾讯、Shopify 等公司也在使用 SWC。"
-          }
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@kdy1dev" />
-        <meta
-          name="twitter:image"
-          content={
-            meta.image ||
-            "https://user-images.githubusercontent.com/9113740/140682117-5e9f460e-c8f1-447c-88a0-e75f80779260.png"
-          }
-        />
-        <meta
-          name="og:title"
-          content={title ? title + "- SWC" : "SWC: 极速 Web 编译器"}
-        />
-        <meta
-          name="og:image"
-          content={
-            meta.image ||
-            "https://user-images.githubusercontent.com/9113740/140682117-5e9f460e-c8f1-447c-88a0-e75f80779260.png"
-          }
-        />
-        <meta name="apple-mobile-web-app-title" content="SWC" />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"
-          media="print"
-          onLoad="this.media='all'"
-        />
-      </>
-    );
+  footer: {
+    text: () => (
+      <a
+        href="https://vercel.com/?utm_source=swc"
+        target="_blank"
+        rel="noopener"
+        className="inline-flex items-center no-underline text-current font-semibold"
+      >
+        <span className="mr-1">Powered by</span>
+        <span>
+          <Vercel />
+        </span>
+      </a>
+    ),
   },
-  footerEditLink: "在 GitHub 上编辑此页面",
-  footerText: () => (
-    <a
-      href="https://vercel.com/?utm_source=swc"
-      target="_blank"
-      rel="noopener"
-      className="inline-flex items-center no-underline text-current font-semibold"
-    >
-      <span className="mr-1">Powered by</span>
-      <span>
-        <Vercel />
-      </span>
-    </a>
-  ),
 };

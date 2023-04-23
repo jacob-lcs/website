@@ -35,7 +35,7 @@ SWC is very fast. Although `swc (es3)` does more work than `babel (es5)`, `swc (
 `transformSync` and `transformFileSync` are rarely used in the real world, as it blocks the current thread. `await Promise.all()` is frequently used as is better than:
 
 ```js
-for (const promise in promises) {
+for (const promise of promises) {
   await promise;
 }
 ```

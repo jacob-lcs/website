@@ -1,4 +1,4 @@
-import Callout from 'nextra-theme-docs/callout'
+import { Callout } from 'nextra-theme-docs'
 
 # Modules
 
@@ -8,7 +8,7 @@ SWC can transpile your code using ES Modules to CommonJS or UMD/AMD. By default,
 
 To emit a CommonJS module, change the `type` in `.swcrc`:
 
-```json
+```json filename=".swcrc" copy
 {
   "$schema": "http://json.schemastore.org/swcrc",
   "module": {
@@ -27,7 +27,7 @@ To emit a CommonJS module, change the `type` in `.swcrc`:
 
 To emit a ES6 module, change the `type` in `.swcrc`:
 
-```json
+```json filename=".swcrc" copy
 {
   "module": {
     "type": "es6",
@@ -45,7 +45,7 @@ To emit a ES6 module, change the `type` in `.swcrc`:
 
 To emit an AMD module, change the `type` in `.swcrc`:
 
-```json
+```json filename=".swcrc" copy
 {
   "module": {
     "type": "amd",
@@ -65,7 +65,7 @@ To emit an AMD module, change the `type` in `.swcrc`:
 
 To emit an UMD module, change the `type` in `.swcrc`:
 
-```json
+```json filename=".swcrc" copy
 {
   "module": {
     "type": "umd",
@@ -84,7 +84,7 @@ To emit an UMD module, change the `type` in `.swcrc`:
 
 These options are shared by `commonjs` / `es6` / `umd` / `amd` inside `.swcrc`:
 
-```json
+```json filename=".swcrc" copy
 {
   "module": {
     // You can specify "commonjs", "es6", "amd", "umd"
@@ -98,11 +98,14 @@ These options are shared by `commonjs` / `es6` / `umd` / `amd` inside `.swcrc`:
 }
 ```
 
+{/* TODO: should fix this in nextra side */}
+export const EsModuleText = () => <code className="nx-border-black nx-border-opacity-[0.04] nx-bg-opacity-[0.03] nx-bg-black nx-break-words nx-rounded-md nx-border nx-py-0.5 nx-px-[.25em] nx-text-[.9em] dark:nx-border-white/10 dark:nx-bg-white/10">{`__esModule`}</code>
+
 ### strict
 
-Defaults to `false`. By default, when using exports with SWC, a non-enumerable `__esModule` property is exported. In some cases, this property is used to determine if the import is the default export or if it contains the default export.
+Defaults to `false`. By default, when using exports with SWC, a non-enumerable <EsModuleText /> property is exported. In some cases, this property is used to determine if the import is the default export or if it contains the default export.
 
-To prevent the `__esModule` property from being exported, you can set the strict option to `true`.
+To prevent the <EsModuleText /> property from being exported, you can set the strict option to `true`.
 
 ### strictMode
 
@@ -128,7 +131,7 @@ The two cases where imports can never be lazy are:
 
 ### noInterop
 
-Defaults to `false`. By default, when using exports with swc a non-enumerable \_\_esModule property is exported.
+Defaults to `false`. By default, when using exports with swc a non-enumerable <EsModuleText /> property is exported.
 This property is then used to determine if the import is the default export or if it contains the default export.
 
 In cases where the auto-unwrapping of default is not needed, you can set the noInterop option to true to avoid the usage of the interopRequireDefault helper (shown in inline form above).
@@ -136,3 +139,13 @@ In cases where the auto-unwrapping of default is not needed, you can set the noI
 ### ignoreDynamic
 
 If set to `true`, dynamic imports will be preserved.
+
+### importInterop
+
+Possible values:
+
+- `swc` (alias: `babel`)
+- `node`
+- `none`
+
+Defaults to `none` if `noInterop` is true, and `swc` otherwise.

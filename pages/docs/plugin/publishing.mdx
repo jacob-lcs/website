@@ -19,7 +19,7 @@ It will create `target/wasm32-wasi/release/your_plugin_name.wasm` or `target/was
 
 Add the following to your `package.json`:
 
-```json
+```json filename="package.json"
 {
     "main": "your_plugin_name.wasm",
     "scripts": {
@@ -36,7 +36,7 @@ You can reduce the size of the plugin by configuring cargo.
 
 In your `Cargo.toml` file, you can add the following lines.
 
-```toml
+```toml filename="Cargo.toml"
 [profile.release]
 # This removes more dead code
 codegen-units = 1

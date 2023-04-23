@@ -1,20 +1,32 @@
+import { Callout, Tabs, Tab } from 'nextra-theme-docs'
+
 # swc-loader
 
 This module allows you to use SWC with webpack.
 
 ## Installation
 
-```plaintext
-# if you use npm
-npm i -D @swc/core swc-loader
-
-# if you use yarn
-yarn add -D @swc/core swc-loader
-```
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tab>
+    ```bash copy
+    pnpm i -D @swc/core swc-loader
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    npm i -D @swc/core swc-loader
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    yarn add -D @swc/core swc-loader
+    ```
+  </Tab>
+</Tabs>
 
 ## Usage
 
-```js
+```js filename="webpack.config.js" copy
 module: {
   rules: [
     {
@@ -37,7 +49,7 @@ The [`jsc.transform.react.development`](/docs/configuration/compilation#jsctrans
 
 When used with babel-loader, the parseMap option must be set to true.
 
-```js
+```js filename="webpack.config.js" copy
 module: {
   rules: [
     {

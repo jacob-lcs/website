@@ -1,4 +1,4 @@
-import Callout from 'nextra-theme-docs/callout'
+import { Callout } from 'nextra-theme-docs'
 
 # Supported Browsers
 
@@ -6,7 +6,7 @@ Starting with `v1.1.10`, you can now use `browserslist` to automatically configu
 
 ## Usage
 
-```json
+```json filename=".swcrc" copy
 {
   "env": {
     "targets": {
@@ -24,9 +24,9 @@ Starting with `v1.1.10`, you can now use `browserslist` to automatically configu
 
 `string | Array<string> | { [string]: string }`, defaults to `{}`.
 
-Describes the environments you support/target for your project. This can either be a [browserslist-compatible](https://github.com/ai/browserslist) query:
+Describes the environments you support/target for your project. This can either be a [browserslist-compatible](https://github.com/ai/browserslist) query [(with limitations)](https://github.com/browserslist/browserslist-rs#limitations):
 
-```json
+```json filename=".swcrc" copy
 {
   "env": {
     "targets": "> 0.25%, not dead"
@@ -36,7 +36,7 @@ Describes the environments you support/target for your project. This can either 
 
 Or an object of minimum environment versions to support:
 
-```json
+```json filename=".swcrc" copy
 {
   "env": {
     "targets": {
@@ -80,7 +80,7 @@ If `targets` is not specified, SWC uses `browserslist` to get target information
 
 Define ES features to skip to reduce bundle size. For example, your `.swcrc` could be:
 
-```json
+```json filename=".swcrc" copy
 {
   "env": {
     "skip": ["core-js/modules/foo"]
