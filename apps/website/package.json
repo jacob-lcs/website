@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next",
     "generate": "typescript-json-schema tsconfig.json 'SwcOptions' > public/schema.json",
-    "build": "pnpm run generate && next build",
+    "build": "pnpm run generate && next build && next-sitemap",
     "start": "next start"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "@types/node": "^18.11.10",
     "@types/react": "^17.0.39",
     "autoprefixer": "^10.4.2",
+    "next-sitemap": "^4.2.3",
     "postcss": "^8.4.6",
     "tailwindcss": "^2.2.19",
     "typescript": "^4.9.3",
