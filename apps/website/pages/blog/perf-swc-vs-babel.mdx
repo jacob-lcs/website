@@ -1,21 +1,21 @@
 ---
 image: https://user-images.githubusercontent.com/9113740/140682117-5e9f460e-c8f1-447c-88a0-e75f80779260.png
-description: 'Benchmark and performance comparison of SWC and Babel.'
+description: 'SWC 和 Babel 的基准测试和性能比较。'
 ---
 
 import Authors, { Author } from 'components/authors'
 
-# Performance Comparison of SWC and Babel
+# SWC 和 Babel 的性能比较
 
 <Authors date="January 31st, 2020">
   <Author name="DongYoon Kang" link="https://twitter.com/kdy1dev" />
 </Authors>
 
-JavaScript is single-threaded. The JS thread is not a good place to do heavy computation. Let's talk about `babel` and `swc`, which are both computation-heavy.
+JavaScript 是单线程的。JS 线程不适合进行繁重的计算。让我们来谈谈 `babel` 和 `swc`，它们都是计算密集型的。
 
-## Synchronous Benchmark
+## 同步基准测试
 
-Let's do a benchmark for the single-core workload. Note this uses `transformSync`, which is rarely useful in the wild.
+让我们为单核工作负载做一个基准测试。请注意，这里使用了 `transformSync`，这在实际情况中很少有用。
 
 ```sh
 [transform]
@@ -28,11 +28,11 @@ Let's do a benchmark for the single-core workload. Note this uses `transformSync
   babel (es5) x 34.05 ops/sec ±1.15% (58 runs sampled)
 ```
 
-SWC is very fast. Although `swc (es3)` does more work than `babel (es5)`, `swc (es3)` is faster than `babel (es5)`.
+SWC 非常快。尽管 `swc (es3)` 比 `babel (es5)` 做更多的工作，但 `swc (es3)` 比 `babel (es5)` 更快。
 
-## Real-World Benchmark
+## 真实世界基准测试
 
-`transformSync` and `transformFileSync` are rarely used in the real world, as it blocks the current thread. `await Promise.all()` is frequently used as is better than:
+`transformSync` 和 `transformFileSync` 在现实世界中很少使用，因为它会阻塞当前线程。`await Promise.all()` 经常被使用，因为它比以下方式更好：
 
 ```js
 for (const promise of promises) {
@@ -40,23 +40,23 @@ for (const promise of promises) {
 }
 ```
 
-Let's create a benchmark for actual real-world usage using `Promise.all()`.
+让我们使用 `Promise.all()` 创建一个实际使用场景的基准测试。
 
-### Ideal Case
+### 理想情况
 
-First, I created a benchmark for the _ideal_ case. It invokes `[n]` promises at once where `n` is the number of physical CPU cores. See [node-swc repository](https://github.com/swc-project/node-swc/blob/bf7718049d67148e2094d0e431d71d4a21993ec7/benches/multicore.js) for the full code.
+首先，我为*理想*情况创建了一个基准测试。它一次调用 `[n]` 个 Promise，其中 `n` 是物理 CPU 核心的数量。完整代码请参见 [node-swc 仓库](https://github.com/swc-project/node-swc/blob/bf7718049d67148e2094d0e431d71d4a21993ec7/benches/multicore.js)。
 
 ```js
 const os = require("os");
 const cpuCount = os.cpus().length;
 
 const SOURCE = `
-  // See the link above
+  // 参见上面的链接
 `;
 
 const SUITES = [
-  // ...
-  // See the link above
+// ...
+// 参见上面的链接
 ];
 
 const arr = [];
@@ -64,9 +64,9 @@ for (let i = 0; i < cpuCount / 2; i++) {
   arr.push(0);
 }
 
-console.info(`CPU Core: ${cpuCount}; Parallelism: ${arr.length}`);
+console.info(`CPU 核心数: ${cpuCount}; 并行度: ${arr.length}`);
 console.info(
-  `Note that output of this benchmark should be multiplied by ${arr.length} as this test uses Promise.all`
+  `请注意，此基准测试的输出应乘以 ${arr.length}，因为此测试使用了 Promise.all`
 );
 
 SUITES.map(args => {
@@ -79,7 +79,7 @@ SUITES.map(args => {
 });
 ```
 
-I ran benchmarks on my old desktop. It has E3-v1275 and 24GB of ram. The output below is copied as-is from benchmark output.
+我在我的旧台式机上运行了基准测试。它有 E3-v1275 处理器和 24GB 内存。下面的输出是从基准测试输出中直接复制的。
 
 ```sh
 CPU Core: 8; Parallelism: 4
@@ -94,7 +94,7 @@ swc-optimize (es3) x 429 ops/sec ±1.94% (82 runs sampled)
 babel (es5) x 6.82 ops/sec ±17.18% (40 runs sampled)
 ```
 
-Now, we need to multiply it by 4, as we do 4 operations per iteration.
+现在，我们需要将其乘以 4，因为每次迭代我们执行 4 次操作。
 
 ```sh
 swc (es3) x 1704 ops/sec ±3.75% (73 runs sampled)
@@ -106,13 +106,13 @@ swc-optimize (es3) x 1716 ops/sec ±1.94% (82 runs sampled)
 babel (es5) x 27.28 ops/sec ±17.18% (40 runs sampled)
 ```
 
-This is an actual result.
+这是一个实际结果。
 
-The performance of `babel (es5)` is dropped. Async is not free. Even though, `34.05 ops/sec` => `27.28 ops/sec` is much better than I expected.
+`babel (es5)` 的性能下降了。异步操作并不是免费的。尽管如此，`34.05 次操作/秒` => `27.28 次操作/秒` 比我预期的要好得多。
 
-### Benchmark for Many Operations
+### 多操作基准测试
 
-I modified the benchmark file slightly to make it creates 100 promises per iteration.
+我稍微修改了基准测试文件，使其每次迭代创建 100 个 Promise。
 
 ```sh
 CPU Core: 8; Parallelism: 100
@@ -127,7 +127,7 @@ Note that output of this benchmark should be multiplied by 100 as this test uses
   babel (es5) x 0.32 ops/sec ±19.10% (6 runs sampled)
 ```
 
-It must be multiplied by 100 as above.
+必须如上所述乘以 100。
 
 ```sh
   swc (es3) x 2199 ops/sec ±1.83% (54 runs sampled)
@@ -139,20 +139,20 @@ It must be multiplied by 100 as above.
   babel (es5) x 32 ops/sec ±19.10% (6 runs sampled)
 ```
 
-Why does the performance of SWC not drop drastically? The secret is Node.js. Node.js internally manages a worker thread pool, and SWC runs on it. Thus, even though you create 100 promises at once, the number of worker threads is much smaller than it.
+为什么 SWC 的性能不会急剧下降？秘密在于 Node.js。Node.js 内部管理着一个工作线程池，而 SWC 运行在其中。因此，即使你一次性创建了 100 个 Promise，工作线程的数量也远少于它。
 
-## Conclusion
+## 结论
 
-|        name        | 1 core, sync  |  4 promises   | 100 promises |
-| :----------------: | :-----------: | :-----------: | :----------: |
-|     swc (es3)      |  616 ops/sec  | 1704 ops/sec  | 2199 ops/sec |
-|    swc (es2015)    |  677 ops/sec  | 1688 ops/sec  | 1911 ops/sec |
-|    swc (es2016)    | 1963 ops/sec  | 3948 op s/sec | 5580 ops/sec |
-|    swc (es2017)    | 1971 ops/sec  | 3948 ops/sec  | 6259 ops/sec |
-|    swc (es2018)    | 2555 ops/sec  | 4884 ops/sec  | 8108 ops/sec |
-| swc-optimize (es3) |  645 ops/sec  | 1716 ops/sec  | 1860 ops/sec |
-|    babel (es5)     | 34.05 ops/sec | 27.28 ops/sec |  32 ops/sec  |
+|        名称        | 1 核心，同步 | 4 个 Promise | 100 个 Promise |
+| :----------------: | :----------: | :----------: | :------------: |
+|     swc (es3)      |  616 次/秒   |  1704 次/秒  |   2199 次/秒   |
+|    swc (es2015)    |  677 次/秒   |  1688 次/秒  |   1911 次/秒   |
+|    swc (es2016)    |  1963 次/秒  |  3948 次/秒  |   5580 次/秒   |
+|    swc (es2017)    |  1971 次/秒  |  3948 次/秒  |   6259 次/秒   |
+|    swc (es2018)    |  2555 次/秒  |  4884 次/秒  |   8108 次/秒   |
+| swc-optimize (es3) |  645 次/秒   |  1716 次/秒  |   1860 次/秒   |
+|    babel (es5)     | 34.05 次/秒  | 27.28 次/秒  |    32 次/秒    |
 
-`swc` scales well, as it does almost all work in the worker thread. From the fact that the throughput of `100 promises` was better than `4 promises`, we can conclude that the worker thread pool of Node.js utilizes hyperthreading.
+`swc` 扩展性很好，因为它几乎所有的操作都在工作线程中完成。从 `100 个 promises` 的吞吐量优于 `4 个 promises` 的事实可以得出结论，Node.js 的工作线程池利用了超线程技术。
 
-`swc` scales up with the number of cpu cores. `Promise.all` is enough for scaling.
+`swc` 随着 CPU 核心数量的增加而扩展。`Promise.all` 足以实现扩展。
