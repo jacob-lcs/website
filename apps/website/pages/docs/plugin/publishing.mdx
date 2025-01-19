@@ -1,23 +1,23 @@
-# Publishing plugins
+# 发布插件
 
-If you prefer reading codes, you can refer to [the repository for official plugins](https://github.com/swc-project/plugins).
+如果你更喜欢阅读代码，可以参考 [官方插件的仓库](https://github.com/swc-project/plugins)。
 
-## Creating a npm package
+## 创建一个 npm 包
 
-### Building a plugin as a wasm
+### 构建一个 wasm 插件
 
-You can run your plugin as a wasm file by running
+你可以通过运行以下命令将你的插件构建为 wasm 文件：
 
 ```sh
 cargo build-wasi --release // build wasm32-wasi target binary
 cargo build-wasm32 --release // build wasm32-unknown-unknown target binary
 ```
 
-It will create `target/wasm32-wasi/release/your_plugin_name.wasm` or `target/wasm32-unknown-unknown/release/your_plugin_name.wasm`, depending on your config.
+它将创建 `target/wasm32-wasi/release/your_plugin_name.wasm` 或 `target/wasm32-unknown-unknown/release/your_plugin_name.wasm`，具体取决于你的配置。
 
-### Creating a npm package for plugin
+### 创建一个 npm 包
 
-Add the following to your `package.json`:
+将以下内容添加到你的 `package.json` 中：
 
 ```json filename="package.json"
 {
@@ -28,13 +28,13 @@ Add the following to your `package.json`:
 }
 ```
 
-## Advanced: Improving your plugin
+## 高级：改进你的插件
 
-### Adjusting configuration for smaller binary
+### 调整配置以减小二进制文件大小
 
-You can reduce the size of the plugin by configuring cargo.
+你可以通过配置 cargo 来减小插件的大小。
 
-In your `Cargo.toml` file, you can add the following lines.
+在你的 `Cargo.toml` 文件中，你可以添加以下行。
 
 ```toml filename="Cargo.toml"
 [profile.release]
@@ -50,9 +50,9 @@ opt-level = "s"
 strip = "symbols"
 ```
 
-### Removing log for release mode
+### 移除 release 模式下的日志
 
-If logging of your crate is too much, you can remove it by enabling `release_max_level_*` of `tracing`, like
+如果 crate 的日志太多，你可以通过启用 `tracing` 的 `release_max_level_*` 来移除它，如下所示：
 
 ```toml
 tracing = { version="0.1", features = ["release_max_level_info"] }

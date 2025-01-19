@@ -2,24 +2,24 @@ import TypeDeclarations from 'components/TypeDeclarations'
 
 # @swc/core
 
-These are the core SWC APIs mainly useful for build tool authors.
+这些是主要对构建工具作者有用的核心 SWC API。
 
 ## transform
 
-`@swc/core` provides appropriate `.d.ts` file, so you may not need this. Returns `Promise<{ code: string, map?: string }>`
+`@swc/core` 提供了适当的 `.d.ts` 文件，因此你可能不需要此文件。返回 `Promise<{ code: string, map?: string }>`
 
 ```js copy
 const swc = require("@swc/core");
 
 swc
   .transform("source code", {
-    // Some options cannot be specified in .swcrc
+    // 以下选项不能在 .swcrc 中指定
     filename: "input.js",
     sourceMaps: true,
-    // Input files are treated as module by default.
+    // 输入文件默认被视为模块
     isModule: false,
 
-    // All options below can be configured via .swcrc
+    // 以下选项可以通过 .swcrc 配置
     jsc: {
       parser: {
         syntax: "ecmascript",
@@ -28,8 +28,8 @@ swc
     },
   })
   .then((output) => {
-    output.code; // transformed code
-    output.map; // source map (in string)
+    output.code; // 转换后的代码
+    output.map; // source map（以字符串表示）
   });
 ```
 
@@ -58,14 +58,14 @@ swc
     comments: false,
     script: true,
 
-    // Defaults to es3
+    // 默认值为 es3
     target: "es3",
 
-    // Input source code are treated as module by default
+    // 输入源代码默认被视为模块
     isModule: false,
   })
   .then((module) => {
-    module.type // file type
+    module.type // 文件类型
     module.body; // AST
   })
 ```
@@ -102,7 +102,7 @@ export declare type ParseOptions = ParserConfig & {
   comments?: boolean;
   script?: boolean;
   /**
-   * Defaults to es3.
+   * 默认值为 es3.
    */
   target?: JscTarget;
 };
@@ -111,42 +111,42 @@ export declare type ParserConfig = TsParserConfig | EsParserConfig;
 export interface TsParserConfig {
     syntax: "typescript";
     /**
-     * Defaults to `false`.
+     * 默认值为 `false`.
      */
     tsx?: boolean;
     /**
-     * Defaults to `false`.
+     * 默认值为 `false`.
      */
     decorators?: boolean;
     /**
-     * Defaults to `false`
+     * 默认值为 `false`
      */
     dynamicImport?: boolean;
 }
 export interface EsParserConfig {
     syntax: "ecmascript";
     /**
-     * Defaults to false.
+     * 默认值为 false.
      */
     jsx?: boolean;
     /**
-     * Defaults to `false`
+     * 默认值为 `false`
      */
     functionBind?: boolean;
     /**
-     * Defaults to `false`
+     * 默认值为 `false`
      */
     decorators?: boolean;
     /**
-     * Defaults to `false`
+     * 默认值为 `false`
      */
     decoratorsBeforeExport?: boolean;
     /**
-     * Defaults to `false`
+     * 默认值为 `false`
      */
     exportDefaultFrom?: boolean;
     /**
-     * Defaults to `false`
+     * 默认值为 `false`
      */
     importAssertions?: boolean;
 }
@@ -176,8 +176,8 @@ const swc = require('@swc/core')
 swc
   .minify('source code', opts?: JsMinifyOptions)
   .then(output => {
-    output.code // transformed code
-    output.map // sourcemap (in string)
+    output.code // 转换后的代码
+    output.map // 源映射（以字符串表示）
   })
 ```
 
@@ -285,191 +285,191 @@ Returns `Output`
 
 ```ts
 /**
- * Programmatic options.
- */
+* 编程选项。
+*/
 interface Options extends Config {
   /**
-   * If true, a file is parsed as a script instead of module.
-   */
+  * 如果为 true，文件将被解析为脚本而不是模块。
+  */
   script?: boolean;
   /**
-   * The working directory that all paths in the programmatic
-   * options will be resolved relative to.
-   *
-   * Defaults to `process.cwd()`.
-   */
+  * 所有编程选项中的路径将相对于此工作目录进行解析。
+  * 默认为 `process.cwd()`。
+  *
   cwd?: string;
-  caller?: CallerOptions;
-  /** The filename associated with the code currently being compiled,
-   * if there is one. The filename is optional, but not all of Swc's
-   * functionality is available when the filename is unknown, because a
-   * subset of options rely on the filename for their functionality.
-   *
-   * The three primary cases users could run into are:
-   *
-   * - The filename is exposed to plugins. Some plugins may require the
-   * presence of the filename.
-   * - Options like "test", "exclude", and "ignore" require the filename
-   * for string/RegExp matching.
-   * - .swcrc files are loaded relative to the file being compiled.
-   * If this option is omitted, Swc will behave as if swcrc: false has been set.
-   */
+  */
+    cwd?: string;
+  调用者？: CallerOptions;
+  /** 与当前正在编译的代码关联的文件名，
+  * 如果有的话。文件名是可选的，但并非所有 Swc 的
+  * 功能在文件名未知时都可用，因为
+  * 一部分选项依赖于文件名来实现其功能。
+  *
+  * 用户可能会遇到的三种主要情况是：
+  *
+  * - 文件名会暴露给插件。某些插件可能需要
+  * 文件名的存在。
+  * - 像 "test"、"exclude" 和 "ignore" 这样的选项需要文件名
+  * 来进行字符串/正则表达式匹配。
+  * - .swcrc 文件相对于正在编译的文件加载。
+  * 如果省略此选项，Swc 将表现为已设置 swcrc: false。
+  */
   filename?: string;
   /**
-   * The initial path that will be processed based on the "rootMode" to
-   * determine the conceptual root folder for the current Swc project.
-   * This is used in two primary cases:
-   *
-   * - The base directory when checking for the default "configFile" value
-   * - The default value for "swcrcRoots".
-   *
-   * Defaults to `opts.cwd`
-   */
+  * 初始路径将根据 "rootMode" 进行处理，以确定当前 Swc 项目的概念根文件夹。
+  * 这主要用于两种情况：
+  * - 检查默认 "configFile" 值时的基本目录
+  *
+  * - "swcrcRoots" 的默认值。
+  * 默认为 `opts.cwd`
+  *
   root?: string;
+  */
+    root?: string;
   /**
-   * This option, combined with the "root" value, defines how Swc chooses
-   * its project root. The different modes define different ways that Swc
-   * can process the "root" value to get the final project root.
-   *
-   * "root" - Passes the "root" value through as unchanged.
-   * "upward" - Walks upward from the "root" directory, looking for a directory
-   * containing a swc.config.js file, and throws an error if a swc.config.js
-   * is not found.
-   * "upward-optional" - Walk upward from the "root" directory, looking for
-   * a directory containing a swc.config.js file, and falls back to "root"
-   *  if a swc.config.js is not found.
-   *
-   *
-   * "root" is the default mode because it avoids the risk that Swc
-   * will accidentally load a swc.config.js that is entirely outside
-   * of the current project folder. If you use "upward-optional",
-   * be aware that it will walk up the directory structure all the
-   * way to the filesystem root, and it is always possible that someone
-   * will have a forgotten swc.config.js in their home directory,
-   * which could cause unexpected errors in your builds.
-   *
-   *
-   * Users with monorepo project structures that run builds/tests on a
-   * per-package basis may well want to use "upward" since monorepos
-   * often have a swc.config.js in the project root. Running Swc
-   * in a monorepo subdirectory without "upward", will cause Swc
-   * to skip loading any swc.config.js files in the project root,
-   * which can lead to unexpected errors and compilation failure.
-   */
+  * 此选项与“root”值结合，定义了 Swc 如何选择
+  * 其项目根目录。不同的模式定义了 Swc 处理“root”值以获取最终项目根目录的不同方式。
+  * 可以处理“root”值以获取最终项目根目录。
+  *
+  * “root” - 将“root”值原封不动地传递。
+  * “upward” - 从“root”目录向上遍历，寻找包含 swc.config.js 文件的目录，如果未找到 swc.config.js 文件，则抛出错误。
+  * 包含 swc.config.js 文件的目录，如果未找到 swc.config.js 文件，则抛出错误。
+  * 如果未找到 swc.config.js 文件，则抛出错误。
+  * “upward-optional” - 从“root”目录向上遍历，寻找包含 swc.config.js 文件的目录，如果未找到 swc.config.js 文件，则回退到“root”。
+  * 包含 swc.config.js 文件的目录，如果未找到 swc.config.js 文件，则回退到“root”。
+  * 如果未找到 swc.config.js 文件，则回退到“root”。
+  *
+  *
+  * "root" 是默认模式，因为它避免了 Swc 意外加载完全在当前项目文件夹之外的 swc.config.js 的风险。
+  * 会意外加载完全在当前项目文件夹之外的 swc.config.js。
+  * 如果你使用 "upward-optional"，
+  * 请注意它会遍历目录结构一直到文件系统的根目录，
+  * 并且总是有可能有人在他们的主目录中有一个被遗忘的 swc.config.js，
+  * 这可能会导致你的构建中出现意外的错误。
+  * 对于在单仓库项目结构中按包运行构建/测试的用户，
+  *
+  *
+  * 可能希望使用 "upward"，因为单仓库通常在项目根目录中有一个 swc.config.js。
+  * 在项目根目录中运行 Swc
+    * often have a swc.config.js in the project root. Running Swc
+  * 在没有“upward”的 monorepo 子目录中，将导致 Swc
+  * 跳过加载项目根目录中的任何 swc.config.js 文件，
+  * 这可能导致意外的错误和编译失败。
+  */
   rootMode?: "root" | "upward" | "upward-optional";
   /**
-   * The current active environment used during configuration loading.
-   * This value is used as the key when resolving "env" configs,
-   * and is also available inside configuration functions, plugins,
-   * and presets, via the api.env() function.
-   *
-   * Defaults to `process.env.SWC_ENV || process.env.NODE_ENV || "development"`
-   */
+  * 在配置加载期间使用的当前活动环境。
+  * 该值在解析“env”配置时用作键，
+  * 并且通过 api.env() 函数在配置函数、插件和预设中也可用。
+  * 默认值为 `process.env.SWC_ENV || process.env.NODE_ENV || "development"`
+  *
   envName?: string;
+  */
+    envName?: string;
   /**
-   * Defaults to searching for a default `.swcrc` file, but can
-   * be passed the path of any JS or JSON5 config file.
-   *
-   *
-   * NOTE: This option does not affect loading of .swcrc files,
-   * so while it may be tempting to do configFile: "./foo/.swcrc",
-   * it is not recommended. If the given .swcrc is loaded via the
-   * standard file-relative logic, you'll end up loading the same
-   * config file twice, merging it with itself. If you are linking
-   * a specific config file, it is recommended to stick with a
-   * naming scheme that is independent of the "swcrc" name.
-   *
-   * Defaults to `path.resolve(opts.root, ".swcrc")`
-   */
+  * 默认搜索默认的 `.swcrc` 文件，但可以
+  * 传递任何 JS 或 JSON5 配置文件的路径。
+  *
+  *
+  * 注意：此选项不会影响 `.swcrc` 文件的加载，
+  * 因此虽然可能想使用 configFile: "./foo/.swcrc"，
+  * 但不推荐这样做。如果给定的 `.swcrc` 通过
+  * 标准的文件相对逻辑加载，你最终会加载相同的
+  * 配置文件两次，并将其与自身合并。如果你正在链接
+  * 一个特定的配置文件，建议坚持使用
+  * 与 "swcrc" 名称无关的命名方案。
+  *
+  * 默认为 `path.resolve(opts.root, ".swcrc")`
+  */
   configFile?: string | boolean;
   /**
-   * true will enable searching for configuration files relative to the "filename" provided to Swc.
-   *
-   * A swcrc value passed in the programmatic options will override one set within a configuration file.
-   *
-   * Note: .swcrc files are only loaded if the current "filename" is inside of
-   *  a package that matches one of the "swcrcRoots" packages.
-   *
-   *
-   * Defaults to true as long as the filename option has been specificed
-   */
+  * true 将启用相对于提供给 Swc 的 "filename" 搜索配置文件。
+  *
+  * 在编程选项中传递的 swcrc 值将覆盖配置文件中设置的值。
+  *
+  * 注意：只有在当前 "filename" 位于与 "swcrcRoots" 包匹配的包内时，才会加载 .swcrc 文件。
+  * 只要指定了 filename 选项，默认值为 true。
+  *
+  *
   swcrc?: boolean;
+  */
+  * 默认情况下，Babel 只会在 "root" 包中搜索 .babelrc 文件。
   /**
-   * By default, Babel will only search for .babelrc files within the "root" package
-   *  because otherwise Babel cannot know if a given .babelrc is meant to be loaded,
-   *  or if it's "plugins" and "presets" have even been installed, since the file
-   *  being compiled could be inside node_modules, or have been symlinked into the project.
-   *
-   *
-   * This option allows users to provide a list of other packages that should be
-   * considered "root" packages when considering whether to load .babelrc files.
-   *
-   *
-   * For example, a monorepo setup that wishes to allow individual packages
-   * to have their own configs might want to do
-   *
-   *
-   *
-   * Defaults to `opts.root`
-   */
+  * 因为否则 Babel 无法知道给定的 .babelrc 是否应该被加载，
+  * 或者它的 "plugins" 和 "presets" 是否已经安装，因为文件
+    *  or if it's "plugins" and "presets" have even been installed, since the file
+  * 编译的内容可能在 node_modules 中，或者已经被符号链接到项目中。
+  *
+  *
+  * 此选项允许用户提供其他包的列表，这些包在考虑是否加载 .babelrc 文件时应被视为“根”包。
+  * 例如，一个希望允许各个包拥有自己配置的单仓库设置可能希望这样做。
+  *
+  *
+  * 默认为 `opts.root`
   swcrcRoots?: boolean | MatchPattern | MatchPattern[];
+  *
+  *
+  *
+  * `true` 将尝试从文件本身加载输入源映射，如果它包含 //# sourceMappingURL=... 注释。如果未找到映射，或者映射加载和解析失败，它将被静默丢弃。
+  */
+    swcrcRoots?: boolean | MatchPattern | MatchPattern[];
   /**
-   * `true` will attempt to load an input sourcemap from the file itself, if it
-   * contains a //# sourceMappingURL=... comment. If no map is found, or the
-   * map fails to load and parse, it will be silently discarded.
-   *
-   *  If an object is provided, it will be treated as the source map object itself.
-   *
-   * Defaults to `true`.
-   */
+     * `true` will attempt to load an input sourcemap from the file itself, if it
+     * contains a //# sourceMappingURL=... comment. If no map is found, or the
+     * map fails to load and parse, it will be silently discarded.
+  *
+  * 如果提供了一个对象，它将被视为源映射对象本身。
+  *
+  * 默认为 `true`。
+  */
   inputSourceMap?: boolean | string;
   /**
-   * The name to use for the file inside the source map object.
-   *
-   * Defaults to `path.basename(opts.filenameRelative)` when available, or `"unknown"`.
-   */
+  * 用于源映射对象中文件的名称。
+  *
+  * 默认为 `path.basename(opts.filenameRelative)`（如果可用），否则为 `"unknown"`。
+  */
   sourceFileName?: string;
   /**
-   * The sourceRoot fields to set in the generated source map, if one is desired.
-   */
+  * 要在生成的源映射中设置的 sourceRoot 字段（如果需要）。
+  */
   sourceRoot?: string;
   plugin?: Plugin;
   isModule?: boolean | 'unknown';
   /**
-   * Destination path. Note that this value is used only to fix source path
-   * of source map files and swc does not write output to this path.
-   */
+  * 目标路径。请注意，此值仅用于修复源路径
+  * 源映射文件的路径，swc 不会将输出写入此路径。
+  */
   outputPath?: string;
 }
 ```
 
-Where `Config` is defined as:
+其中 `Config` 定义为：
 
 ```ts
 export interface Config {
   /**
-   * Note: The type is string because it follow rust's regex syntax.
-   */
+  * 注意：类型为字符串，因为它遵循 Rust 的正则表达式语法。
+  */
   test?: string | string[];
   /**
-   * Note: The type is string because it follow rust's regex syntax.
-   */
-  exclude?: string | string[];
-  env?: EnvConfig;
-  jsc?: JscConfig;
-  module?: ModuleConfig;
-  minify?: boolean;
+  * 注意：类型为字符串，因为它遵循 Rust 的正则表达式语法。
+  */
+  排除？: 字符串 | 字符串[];
+  环境？: 环境配置;
+  jsc？: Jsc 配置;
+  模块？: 模块配置;
+  压缩？: 布尔值;
   /**
-   * - true to generate a sourcemap for the code and include it in the result object.
-   * - "inline" to generate a sourcemap and append it as a data URL to the end of the code, but not include it in the result object.
-   *
-   * `swc-cli` overloads some of these to also affect how maps are written to disk:
-   *
-   * - true will write the map to a .map file on disk
-   * - "inline" will write the file directly, so it will have a data: containing the map
-   * - Note: These options are bit weird, so it may make the most sense to just use true
-   *  and handle the rest in your own code, depending on your use case.
-   */
+  * - true 为代码生成源映射并将其包含在结果对象中。
+  * - "inline" 生成源映射并将其作为数据 URL 附加到代码末尾，但不包含在结果对象中。
+  *
+  * `swc-cli` 重载了其中一些选项，以影响映射如何写入磁盘：
+  *
+  * - true 会将地图写入磁盘上的 .map 文件
+  * - "inline" 会直接写入文件，因此它将包含一个包含地图的 data:
+  * - 注意：这些选项有点奇怪，所以可能最有意义的是直接使用 true
+  *  并根据您的用例在您自己的代码中处理其余部分。
+  */
   sourceMaps?: boolean | "inline";
   inlineSourcesContent?: boolean;
 }

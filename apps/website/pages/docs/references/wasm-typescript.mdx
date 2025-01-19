@@ -1,6 +1,6 @@
 # @swc/wasm-typescript
-
-## Installation
+    
+## 安装
 
 ```bash
 npm install @swc/wasm-typescript
@@ -25,17 +25,17 @@ const code = await transform(tsSourceCode, {
 
 ### transform, transformSync
 
-- Signature: `function transform(src: string, options: Options) => Promise<string>`
-- Signature: `function transformSync(src: string, options: Options) => string`
+- 签名: `function transform(src: string, options: Options) => Promise<string>`
+- 签名: `function transformSync(src: string, options: Options) => string`
 
 
 
 
-### Types
+### 类型
 
 ```typescript
 type Options = {
-    // Defaults to 'unknown', which automatically detects the module type.
+    // 默认值为 'unknown'，它会自动检测模块类型。
     module?: boolean | 'unknown'
 
     filename?: string;

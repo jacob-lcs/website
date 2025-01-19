@@ -2,16 +2,15 @@ import Benchmark from 'components/benchmarks/dynamic'
 
 # Benchmarks
 
-These benchmarks are used to evaluate the performance of SWC on every commit, as well as against other libraries like Babel or esbuild. You can view the [benchmark source code here](https://github.com/swc-project/swc/blob/main/.github/workflows/bench.yml).
+这些基准测试用于评估每次提交时 SWC 的性能,以及与 Babel 或 esbuild 等其他库的性能对比。你可以在[这里查看基准测试源代码](https://github.com/swc-project/swc/blob/main/.github/workflows/bench.yml)。
 
 <Benchmark />
 
 ## Transformations (Parallel)
 
+这是最重要的基准测试,因为构建工具作者会并发运行任务。请注意 Babel 和 `tsx` 在并行和同步基准测试中的性能是相同的。
 
-This is the most important benchmark, since build tool authors will run tasks concurrently. Note the performance of Babel and `tsx` is indentical for parallel and synchronous benchmarks.
-
-You can view the [benchmark source code here](https://github.com/kdy1/benchmark-done-right).
+你可以在这里查看[基准测试源代码](https://github.com/kdy1/benchmark-done-right)。
 
 ### es3
 
@@ -47,7 +46,7 @@ You can view the [benchmark source code here](https://github.com/kdy1/benchmark-
 
 ## Transformations (Synchronous)
 
-Not as critical as the parallel benchmark.
+这个基准测试不如并行基准测试重要。
 
 ### es3
 
@@ -83,7 +82,7 @@ Not as critical as the parallel benchmark.
 
 ## Transformations (Asynchronous)
 
-This benchmark suite does not use all CPU cores. For SWC, the benchmark stores only one task on the Node.js thread pool at a time.
+这个基准测试不使用所有 CPU 核心。对于 SWC，基准测试在 Node.js 线程池中只存储一个任务。
 
 ### es3
 

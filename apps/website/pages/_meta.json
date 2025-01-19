@@ -1,20 +1,20 @@
 {
   "index": {
-    "title": "Introduction",
+    "title": "介绍",
     "type": "page",
     "hidden": true,
     "display": "hidden"
   },
   "docs": {
-    "title": "Docs",
+    "title": "文档",
     "type": "page"
   },
   "playground": {
-    "title": "Playground",
+    "title": "尝试 SWC",
     "type": "page"
   },
   "blog": {
-    "title": "Blog",
+    "title": "博客",
     "type": "page"
   }
 }

@@ -3,16 +3,16 @@ import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 # Bundling (swcpack)
 
 <Callout emoji="🚧">
-  This feature is still under construction. Also, the main author of SWC works for [Turbopack](https://github.com/vercel/turbo) by Vercel, so this feature is not something that will be actively developed.
+  这个功能仍在开发中。此外，SWC 的主要作者在 Vercel 为 [Turbopack](https://github.com/vercel/turbo) 工作，所以这个功能不会被积极开发。
 </Callout>
 
-SWC is able to bundle multiple JavaScript or TypeScript files into one.
+SWC 能够将多个 JavaScript 或 TypeScript 文件捆绑到一个文件中。
 
-This feature is currently named `spack`, but will be renamed to `swcpack` in `v2`. `spack.config.js` will be deprecated for `swcpack.config.js`.
+这个功能目前名为 `spack`，但将在 `v2` 中更改为 `swcpack`。`spack.config.js` 将被弃用，改为 `swcpack.config.js`。
 
-View a [basic example of bundling](https://github.com/swc-project/pkgs/tree/main/packages/cli/examples/spack-basic).
+查看 [一个基本的捆绑示例](https://github.com/swc-project/pkgs/tree/main/packages/cli/examples/spack-basic)。
 
-## Usage
+## 用法
 
 <Tabs items={['pnpm', 'npm', 'yarn']}>
   <Tab>
@@ -32,21 +32,21 @@ View a [basic example of bundling](https://github.com/swc-project/pkgs/tree/main
   </Tab>
 </Tabs>
 
-Create a `spack.config.js` file and run:
+创建一个 `spack.config.js` 文件并运行：
 
 ```bash
 npx spack
 ```
 
-## Configuration
+## 配置
 
-To see all options, [view the configuration](/docs/configuration/bundling).
+要查看所有选项，请查看 [配置](/docs/configuration/bundling)。
 
-## Features
+## 功能
 
-### Compact Output
+### 紧凑输出
 
-Just like `rollup`, SWC emits compact output.
+就像 `rollup`，SWC 会发出紧凑的输出。
 
 ```js filename="a.js"
 console.log("loading A");
@@ -70,40 +70,40 @@ function a() {
 a();
 ```
 
-SWC was designed with merging in mind, so naming collisions between multiple files are automatically handled.
+SWC 的设计目的是合并，因此多个文件之间的命名冲突会自动处理。
 
-### Tree Shaking
+### 树摇
 
-Just like other modern bundlers, SWC can remove unused exports.
+就像其他现代捆绑器一样，SWC 可以删除未使用的导出。
 
-### Import Deglobbing
+### 导入去抖
 
-To aid with tree-shaking, SWC deglobs imports if possible.
+为了帮助树摇，SWC 会去抖导入。
 
 ```js
 import * as lib from "lib";
 lib.foo();
 ```
 
-behaves exactly same as:
+行为与以下代码完全相同：
 
 ```js
 import { foo } from "lib";
 foo();
 ```
 
-This preserves all side effects.
+这保留了所有副作用。
 
-### CommonJS Support
+### CommonJS 支持
 
-SWC supports importing CommonJS modules and emits more compact output than webpack.
+SWC 支持导入 CommonJS 模块，并发出比 webpack 更紧凑的输出。
 
 ```js filename="source.js"
 import * as lib from "lib";
 console.log(lib); // Prevent dce
 ```
 
-If the `lib` above is a CommonJS module, it's transcompiled to:
+如果上面的 `lib` 是 CommonJS 模块，则会被转译为：
 
 ```js filename="output.js"
 const load = __spack_require.bind(void 0, function (module, exports) {
@@ -113,14 +113,14 @@ const lib = load();
 console.log(lib); // Prevent dce
 ```
 
-### Optimizations
+### 优化
 
-- Global Inlining (e.g. `process.env.NODE_ENV`)
-- Inlining
-- Constant propagation
-- Dead code elimination
+- 全局内联（例如 `process.env.NODE_ENV`）
+- 内联
+- 常量传播
+- 死代码消除
 
-The tree shaking described above is using the dead code elimination pass. Currently, SWC can deduce:
+上面描述的树摇是使用死代码消除 pass 实现的。目前，SWC 可以推断：
 
 ```js filename="source.js"
 let b = 2;
@@ -141,11 +141,11 @@ into:
 console.log(3);
 ```
 
-### High Performance
+### 高性能
 
-Performance is a priority for SWC. It's very fast because it uses all CPU cores and is optimized by `llvm`.
+性能是 SWC 的首要任务。它非常快，因为它使用所有 CPU 核心并由 `llvm` 优化。
 
-### Multiple Entries Support
+### 多入口支持
 
 ```js filename="spack.config.js"
 const { config } = require("@swc/core/spack");
@@ -162,6 +162,6 @@ module.exports = config({
 });
 ```
 
-### Built-in Chunking
+### 内置分块
 
-Using the same config as above, if `android.ts` and `web.ts` both references the same file, it will be extracted as a separate chunk and `web.ts` and `android.ts` will import it.
+使用与上面相同的配置，如果 `android.ts` 和 `web.ts` 都引用了同一个文件，它将被提取为单独的块，并且 `web.ts` 和 `android.ts` 将导入它。

@@ -5,92 +5,92 @@ import { Callout } from 'nextra-theme-docs'
 ## Important API Changes
 
 <Callout type="warning">
-Recent API changes that may affect your plugin development:
+最近的 API 更改可能会影响你的插件开发：
 
-- Replace `chain!` macro with tuples: Use `(` instead of `chain!(`. You can replace all `chain!(` with `(` using IDE features.
-- For `chain!` with 13+ arguments: Use nested tuples for items after the 13th element.
-- Replace `-> impl Fold` with `-> impl Pass` in general.
-- `as_folder` is now `visit_mut_pass` and returns `impl VisitMut + Pass` instead of `impl VisitMut + Fold`.
-- Use `Program.apply` and `Program.mutate` to apply Pass to program:
-  - `fn apply(self, impl Pass) -> Self`
-  - `fn mutate(&mut self, impl Pass)`
-- Replace `noop()` with `noop_pass()`. The new function lives in `swc_ecma_ast` and is a real noop function.
+- 将 `chain!` 宏替换为元组：使用 `(` 而不是 `chain!(`。您可以使用 IDE 功能将所有 `chain!(` 替换为 `(`。
+- 对于具有 13 个以上参数的 `chain!`：对第 13 个元素之后的项使用嵌套元组。
+- 通常将 `-> impl Fold` 替换为 `-> impl Pass`。
+- `as_folder` 现在为 `visit_mut_pass`，并返回 `impl VisitMut + Pass` 而不是 `impl VisitMut + Fold`。
+- 使用 `Program.apply` 和 `Program.mutate` 将 Pass 应用于程序：
+- `fn apply(self, impl Pass) -> Self`
+- `fn mutate(&mut self, impl Pass)`
+- 将 `noop()` 替换为 `noop_pass()`。新函数位于 `swc_ecma_ast` 中，是一个真正的无操作函数。
 
 </Callout>
 
-## Setup environment
+## 设置环境
 
-### Install required toolchain
+### 安装所需的工具链
 
-As plugin is written in the rust programming language and built as a `.wasm` file, you need to install rust toolchain and wasm target.
+由于插件是用 Rust 编程语言编写的，并构建为 `.wasm` 文件，因此你需要安装 Rust 工具链和 wasm 目标。
 
-#### Install rust
+#### 安装 Rust
 
-You can follow instructions at ['Install Rust' page from the official rust website](https://www.rust-lang.org/tools/install)
+你可以按照 [Rust 官方网站的“安装 Rust”页面](https://www.rust-lang.org/tools/install) 上的说明进行操作。
 
-#### Add wasm target to rust
+#### 为 Rust 添加 wasm 目标
 
-SWC supports two kinds of `.wasm` files.
-Those are
+SWC 支持两种类型的 `.wasm` 文件。
+它们是
 
 - wasm32-wasip1
 - wasm32-unknown-unknown
 
-In this guide, we will use `wasm-wasip1` as a target.
+在本指南中，我们将使用 `wasm-wasip1` 作为目标。
 
-#### Install `swc_cli`
+#### 安装 `swc_cli`
 
-You can install a rust-based CLI for SWC by doing
+你可以通过以下命令安装基于 Rust 的 SWC CLI：
 
 ```sh
 cargo install swc_cli
 ```
 
-#### Configuring IDE
+#### 配置 IDE
 
-If you are going to use vscode, it's recommended to install `rust-analyzer` extension.
-`rust-analyzer` is a [language server](https://microsoft.github.io/language-server-protocol/) for the rust programming language, which provides good features for code completion, code navigation, and code analysis.
+如果你打算使用 vscode，建议安装 `rust-analyzer` 扩展。
+`rust-analyzer` 是 Rust 编程语言的 [语言服务器](https://microsoft.github.io/language-server-protocol/)，它提供了代码补全、代码导航和代码分析的良好功能。
 
-## Implementing simple plugin
+## 实现简单的插件
 
-### Create a project
+### 创建项目
 
-SWC CLI supports creating a new plugin project.
+SWC CLI 支持创建一个新的插件项目。
 
-Run
+运行
 
 ```sh
 swc plugin new --target-type wasm32-wasip1 my-first-plugin
-# You should to run this
+# 你需要运行这个
 rustup target add wasm32-wasip1
 ```
 
-to create a new plugin, and open `my-first-plugin` with your preferred rust IDE.
+来创建一个新的插件，并使用你喜欢的 Rust IDE 打开 `my-first-plugin`。
 
-### Implementing a visitor
+### 实现访问者
 
-The generated code has
+生成的代码包含
 
 ```rust
 impl VisitMut for TransformVisitor {
-    // Implement necessary visit_mut_* methods for actual custom transform.
-    // A comprehensive list of possible visitor methods can be found here:
+    // 为实际的自定义转换实现必要的 visit_mut_* 方法。
+    // 可以在以下位置找到可能的访问者方法的完整列表：
     // https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html
 }
 ```
 
-which is used to transform code.
-[The trait `VisitMut`](https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html) supports mutating AST nodes, and as it supports all AST types, it has lots of methods.
+用于转换代码。
+[`VisitMut` trait](https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html) 支持对 AST 节点进行变异，并且由于它支持所有 AST 类型，因此它有很多方法。
 
 ---
 
-We will use
+我们将使用
 
 ```js
 foo === bar;
 ```
 
-as the input. From [the SWC Playground](https://play.swc.rs), you can get actual representation of this code.
+作为输入。从 [SWC Playground](https://play.swc.rs) 中，你可以获取此代码的实际表示。
 
 ```json
 {
@@ -143,8 +143,8 @@ as the input. From [the SWC Playground](https://play.swc.rs), you can get actual
 }
 ```
 
-Let's implement a method for `BinExpr`.
-You can do it like
+让我们为 `BinExpr` 实现一个方法。
+你可以这样做
 
 ```rust
 use swc_core::{
@@ -159,10 +159,10 @@ impl VisitMut for TransformVisitor {
 }
 ```
 
-Note that `visit_mut_children_with` is required if you want to call the method handler for children.
-e.g. `visit_mut_ident` for `foo` and `bar` will be called by `e.visit_mut_children_with(self);` above.
+请注意，如果你想为子节点调用方法处理程序，则需要 `visit_mut_children_with`。
+例如，`foo` 和 `bar` 的 `visit_mut_ident` 将通过上面的 `e.visit_mut_children_with(self);` 调用。
 
-Let's narrow down it using the binary operator.
+让我们使用二元运算符来缩小范围。
 
 ```rust
 use swc_core::{
@@ -182,35 +182,35 @@ impl VisitMut for TransformVisitor {
 }
 ```
 
-`op!("===")` is a macro call, and it returns various types of operators.
-It returns [BinaryOp](https://rustdoc.swc.rs/swc_ecma_ast/enum.BinaryOp.html) in this case, because we provided `"==="`, which is a binary operator.
-See [the rustdoc for op! macro](https://rustdoc.swc.rs/swc_ecma_ast/macro.op.html) for more details.
+`op!("===")` 是一个宏调用，它返回各种类型的运算符。
+在这种情况下，它返回 [BinaryOp](https://rustdoc.swc.rs/swc_ecma_ast/enum.BinaryOp.html)，因为我们提供了 `"==="`，这是一个二元运算符。
+有关更多详细信息，请参见 [op! 宏的 rustdoc](https://rustdoc.swc.rs/swc_ecma_ast/macro.op.html)。
 
-If we run this plugin, we will get
+如果我们运行这个插件，我们将得到
 
 ```js
 kdy1 === bar;
 ```
 
-## Testing your transform
+## 测试你的转换
 
-You can simply run `cargo test` to test your plugins.
-SWC also provides a utility to ease fixture testing.
+你可以简单地运行 `cargo test` 来测试你的插件。
+SWC 还提供了一个实用程序来简化夹具测试。
 
-You can easily verify the input and output of the transform.
+你可以轻松验证转换的输入和输出。
 
 ```rust
 test!(
     Default::default(),
-    |_| visit_mut_pass(TransformVisitor), // Note: Updated to use visit_mut_pass instead of as_folder
+    |_| visit_mut_pass(TransformVisitor), // 注意：更新为使用 visit_mut_pass 而不是 as_folder
     boo,
     r#"foo === bar;"#
 );
 ```
 
-Then, once you run `UPDATE=1 cargo test`, the snapshot will be updated.
+然后，一旦你运行 `UPDATE=1 cargo test`，快照将被更新。
 
-You can take a look at [the real fixture test for typescript type stripper](https://github.com/swc-project/swc/blob/c0abdb394a94bcbc7ea9602163e6ce032c89b996/crates/swc_ecma_transforms_typescript/tests/strip.rs#L4514-L4527).
+你可以查看 [typescript 类型剥离器的真实夹具测试](https://github.com/swc-project/swc/blob/c0abdb394a94bcbc7ea9602163e6ce032c89b996/crates/swc_ecma_transforms_typescript/tests/strip.rs#L4514-L4527)。
 
 ```rust
 #[testing::fixture("tests/fixture/**/input.ts")]
@@ -222,31 +222,31 @@ fn fixture(input: PathBuf) {
             tsx: input.to_string_lossy().ends_with(".tsx"),
             ..Default::default()
         }),
-        &|t| (tr(), properties(t, true)), // Note: Updated to use tuple syntax instead of chain!
+        &|t| (tr(), properties(t, true)), // 注意：更新为使用元组语法而不是链式调用！
         &input,
         &output,
     );
 }
 ```
 
-Things to note:
+需要注意的事项：
 
-- The glob provided to `testing::fixture` is relative to the cargo project directory.
-- The output file is `output.js`, and it's stored in a same directory as the input file.
-- `test_fixture` drives the test.
-- You can determine the syntax of the input file by passing the syntax to `test_fixture`.
-- You then provide your visitor implementation as the second argument to `test_fixture`.
-- Then you provide the input file path and the output file path.
+- 提供给 `testing::fixture` 的 glob 是相对于 cargo 项目目录的。
+- 输出文件是 `output.js`，它与输入文件存储在同一目录中。
+- `test_fixture` 驱动测试。
+- 你可以通过将语法传递给 `test_fixture` 来确定输入文件的语法。
+- 然后你提供你的访问者实现作为 `test_fixture` 的第二个参数。
+- 然后你提供输入文件路径和输出文件路径。
 
-### Logging
+### 日志记录
 
-SWC uses `tracing` for logging.
-By default, SWC testing library configures the log level to `debug` by default, and this can be controlled by using an environment variable named `RUST_LOG`.
-e.g. `RUST_LOG=trace cargo test` will print all logs, including `trace` logs.
+SWC 使用 `tracing` 进行日志记录。
+默认情况下，SWC 测试库将日志级别配置为 `debug`，这可以通过使用名为 `RUST_LOG` 的环境变量来控制。
+例如，`RUST_LOG=trace cargo test` 将打印所有日志，包括 `trace` 日志。
 
-If you want, you can remove logging for your plugin by using cargo features of `tracing`.
-See [the documentation for it](https://docs.rs/crate/tracing/latest/features).
+如果你愿意，你可以通过使用 `tracing` 的 cargo 功能来删除插件的日志记录。
+参见 [其文档](https://docs.rs/crate/tracing/latest/features)。
 
-## Publishing your plugin
+## 发布你的插件
 
-Please see [plugin publishing guide](../publishing)
+请参阅 [插件发布指南](../publishing)

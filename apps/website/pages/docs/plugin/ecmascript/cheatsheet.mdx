@@ -1,54 +1,54 @@
 import { Callout } from 'nextra-theme-docs';
 
-# Plugin cheatsheet
+# 插件速查表
 
 <Callout>
-    This page describes the known hard points for implementing plugins for ecmascript.
+    本页描述了为 ECMAScript 实现插件时已知的难点。
 </Callout>
 
-You may find documentation at https://rustdoc.swc.rs/swc useful, especially if you are dealing with a visitor or `Id` issue.
+你可能会发现 https://rustdoc.swc.rs/swc 的文档很有用，特别是如果你正在处理访问者或 `Id` 问题。
 
-## Understanding types
+## 理解类型
 
 ### `JsWord`
 
-`String` allocates, and 'text'-s of source code has a special trait.
-Those are lots of duplicates. Obviously, if your variable is named `foo`, you need to use `foo` multiple times.
-So SWC interns the string to reduce the number of allocations.
+`String` 会分配内存，而源代码的 'text' 有一个特殊的特性。
+这些有很多重复。显然，如果你的变量名为 `foo`，你需要多次使用 `foo`。
+所以 SWC 对字符串进行内部化以减少内存分配的次数。
 
-`JsWord` is a string type that is interned.
-You can create a `JsWord` from `&str`, or from a `String`.
-Use `.into()` to convert to `JsWord`.
+`JsWord` 是一种被内部化的字符串类型。
+你可以从 `&str` 或 `String` 创建 `JsWord`。
+使用 `.into()` 转换为 `JsWord`。
 
 ### `Ident`, `Id`, `Mark`, `SyntaxContext`
 
-SWC uses a special system for managing variables.
-See [the rustdoc for `Ident`](https://rustdoc.swc.rs/swc_ecma_ast/struct.Ident.html) for details.
+SWC 使用一个特殊的系统来管理变量。
+详情请参见 [`Ident` 的 rustdoc](https://rustdoc.swc.rs/swc_ecma_ast/struct.Ident.html)。
 
-## Common issues
+## 常见问题
 
-### Getting AST representation of input
+### 获取输入的 AST 表示
 
-[SWC Playground](https://play.swc.rs) supports getting AST from the input code.
+[SWC Playground](https://play.swc.rs) 支持从输入代码中获取 AST。
 
-### Variable management of SWC
+### SWC 的变量管理
 
-### Error reporting
+### 错误报告
 
-See [rustdoc for `swc_common::errors::Handler`](https://rustdoc.swc.rs/swc_common/errors/struct.Handler.html).
+参见 [`swc_common::errors::Handler` 的 rustdoc](https://rustdoc.swc.rs/swc_common/errors/struct.Handler.html)。
 
-### Comparing `JsWord` with `&str`
+### 比较 `JsWord` 和 `&str`
 
-If you don't know what `JsWord` is, see [the rustdoc for swc_atoms](https://rustdoc.swc.rs/swc_atoms/).
+如果你不知道 `JsWord` 是什么，请参见 [swc_atoms 的 rustdoc](https://rustdoc.swc.rs/swc_atoms/)。
 
-You can create `&str` by doing `&val` where `val` is a variable of type `JsWord`.
+你可以通过 `&val` 创建 `&str`，其中 `val` 是 `JsWord` 类型的变量。
 
-### Matching `Box<T>`
+### 匹配 `Box<T>`
 
-You will need to use `match` to match on various nodes, including `Box<T>`.
-For performance reason, all expressions are stored in a boxed form. (`Box<Expr>`)
+你需要使用 `match` 来匹配各种节点，包括 `Box<T>`。
+出于性能原因，所有表达式都以装箱形式存储。（`Box<Expr>`）
 
-SWC stores callee of call expressions as a `Callee` enum, and it has `Box<Expr>`.
+SWC 将调用表达式的被调用者存储为 `Callee` 枚举，并且它有 `Box<Expr>`。
 
 ```rust
 use swc_core::ast::*;
@@ -61,7 +61,7 @@ impl VisitMut for MatchExample {
         callee.visit_mut_children_with(self);
 
         if let Callee::Expr(expr) = callee {
-            // expr is `Box<Expr>`
+            // expr 是 `Box<Expr>`
             if let Expr::Ident(i) = &mut **expr {
                 i.sym = "foo".into();
             }
@@ -70,14 +70,14 @@ impl VisitMut for MatchExample {
 }
 ```
 
-### Changing AST type
+### 更改 AST 类型
 
-If you want to change `ExportDefaultDecl` to `ExportDefaultExpr`, you should do it from `visit_mut_module_decl`.
+如果你想将 `ExportDefaultDecl` 更改为 `ExportDefaultExpr`，你应该从 `visit_mut_module_decl` 中执行此操作。
 
-### Inserting new nodes
+### 插入新节点
 
-If you want to inject a new `Stmt`, you need to store the value in the struct, and inject it from `visit_mut_stmts` or `visit_mut_module_items`.
-See [a destructuring core transform](https://github.com/swc-project/swc/blob/6416c675de14b3acec558ab7b4ec69afcd71fa11/crates/swc_ecma_transforms_compat/src/es2015/destructuring.rs#L1025-L1034).
+如果你想注入一个新的 `Stmt`，你需要将值存储在结构体中，并从 `visit_mut_stmts` 或 `visit_mut_module_items` 中注入它。
+参见 [解构核心转换](https://github.com/swc-project/swc/blob/6416c675de14b3acec558ab7b4ec69afcd71fa11/crates/swc_ecma_transforms_compat/src/es2015/destructuring.rs#L1025-L1034)。
 
 ```rust
 struct MyPlugin {
@@ -85,32 +85,32 @@ struct MyPlugin {
 }
 ```
 
-## Tips
+## 提示
 
-### Decorators and TypeScript types
+### 装饰器和 TypeScript 类型
 
-Those are handled before your plugin is called. So you can't access them from the Wasm plugin.
-This design decision is made to make Wasm plugins easier to write and the Wasm binary smaller.
+这些在你的插件被调用之前就已经处理好了。所以你无法从 Wasm 插件中访问它们。
+这个设计决定是为了使 Wasm 插件更容易编写，并且使 Wasm 二进制文件更小。
 
-- Tracking issue: https://github.com/swc-project/swc/issues/9132
+- 跟踪问题：https://github.com/swc-project/swc/issues/9132
 
-### Comments while testing
+### 测试时的注释
 
-You can make your pass generic over `C: Comments`. `test_fixture` provides `&mut Tester`, which has `comments` field.
+你可以让你的 pass 泛型化 `C: Comments`。`test_fixture` 提供了 `&mut Tester`，它有 `comments` 字段。
 
-- [Example pass](https://github.com/swc-project/swc/blob/2d6509a7d4b29f61d4d29715e6ab0825fa034020/crates/swc_ecma_transforms_react/src/pure_annotations/mod.rs)
-- [Testing for the test](https://github.com/swc-project/swc/blob/2d6509a7d4b29f61d4d29715e6ab0825fa034020/crates/swc_ecma_transforms_react/src/pure_annotations/tests.rs#L108-L118)
+- [示例 pass](https://github.com/swc-project/swc/blob/2d6509a7d4b29f61d4d29715e6ab0825fa034020/crates/swc_ecma_transforms_react/src/pure_annotations/mod.rs)
+- [测试的测试](https://github.com/swc-project/swc/blob/2d6509a7d4b29f61d4d29715e6ab0825fa034020/crates/swc_ecma_transforms_react/src/pure_annotations/tests.rs#L108-L118)
 
-### Apply `resolver` while testing
+### 在测试时应用 `resolver`
 
-SWC applies plugin after applying [`resolver`](https://rustdoc.swc.rs/swc_ecma_transforms_base/fn.resolver.html), so it's better to test your transform with it.
-As written in the rustdoc for the `resolver`, you have to use correct `SyntaxContext` if you need to reference global variable (e.g. `__dirname`, `require`) or top-level bindings written by the user.
+SWC 在应用 [`resolver`](https://rustdoc.swc.rs/swc_ecma_transforms_base/fn.resolver.html) 后应用插件，所以最好用它来测试你的转换。
+正如 `resolver` 的 rustdoc 中所写，如果你需要引用全局变量（例如 `__dirname`, `require`）或用户编写的顶级绑定，你必须使用正确的 `SyntaxContext`。
 
 ```rust
 fn tr() -> impl Pass {
     (
         resolver(Mark::new(), Mark::new(), false),
-        // Most of transform does not care about globals so it does not need `SyntaxContext`
+        // 大多数转换不关心全局变量，所以不需要 `SyntaxContext`
         your_transform()
     )
 }
@@ -119,18 +119,18 @@ test!(
     Syntax::default(),
     |_| tr(),
     basic,
-    // input
+    // 输入
     "(function a ([a]) { a });",
-    // output
+    // 输出
     "(function a([_a]) { _a; });"
 );
 ```
 
-### Make your handlers stateless
+### 让你的处理程序无状态
 
-Let's say we are going to handle all array expressions in a function expression.
-You can add a flag to the visitor to check if we are in a function expression.
-You will be tempted to do
+假设我们要处理函数表达式中的所有数组表达式。
+你可以向访问者添加一个标志来检查我们是否在函数表达式中。
+你可能会想这样做
 
 ```rust
 struct Transform {
@@ -148,13 +148,13 @@ impl VisitMut for Transform {
 
     fn visit_mut_array_lit(&mut self, n: &mut ArrayLit) {
         if self.in_fn_expr {
-            // Do something
+            // 做一些事情
         }
     }
 }
 ```
 
-but this cannot handle
+但这无法处理
 
 ```js
 const foo = function () {
@@ -166,8 +166,8 @@ const foo = function () {
 }
 ```
 
-After visiting `bar`, `in_fn_expr` is `false`.
-You have to do
+在访问 `bar` 后，`in_fn_expr` 是 `false`。
+你必须这样做
 
 ```rust
 struct Transform {
@@ -188,17 +188,15 @@ impl VisitMut for Transform {
 
     fn visit_mut_array_lit(&mut self, n: &mut ArrayLit) {
         if self.in_fn_expr {
-            // Do something
+            // 做一些事情
         }
     }
 }
 ```
 
-instead.
+### 使用 `@swc/jest` 进行测试
 
-### Test with `@swc/jest`
-
-You can test your transform with `@swc/jest` by adding your plugin to your `jest.config.js`.
+你可以通过将你的插件添加到 `jest.config.js` 中来使用 `@swc/jest` 测试你的转换。
 
 ```js filename="jest.config.js"
 module.exports = {
@@ -231,50 +229,50 @@ module.exports = {
 };
 ```
 
-See https://github.com/jantimon/css-variable/blob/main/test/swc/jest.config.js
+参见 https://github.com/jantimon/css-variable/blob/main/test/swc/jest.config.js
 
-### `Path` is one of unix, while FileName can be one of host OS
+### `Path` 是 unix 之一，而 FileName 可以是主机操作系统之一
 
-This is because linux version of `Path` code is used while compiling to wasm.
-So you may need to replace `\\` with `/` in your plugin.
-As `/` is a valid path separator in windows, it's valid thing to do.
+这是因为在编译到 wasm 时使用了 `Path` 代码的 linux 版本。
+所以你可能需要在你的插件中将 `\\` 替换为 `/`。
+由于 `/` 是 windows 中的有效路径分隔符，这是有效的操作。
 
-### Comments
+### 注释
 
-A comment belongs to a span of the node. (lo for leading comments, hi for trailing comments)
-If you want to add a leading comment to a node, you can do `PluginCommentsProxy.add_leading(span.lo, comment);`.
+注释属于节点的 span。（lo 用于前导注释，hi 用于尾随注释）
+如果你想为节点添加前导注释，你可以使用 `PluginCommentsProxy.add_leading(span.lo, comment);`。
 
-See [PluginCommentsProxy](https://rustdoc.swc.rs/swc_plugin_proxy/struct.PluginCommentsProxy.html).
+参见 [PluginCommentsProxy](https://rustdoc.swc.rs/swc_plugin_proxy/struct.PluginCommentsProxy.html)。
 
-## Ownership model (of rust)
+## Rust 的所有权模型
 
-> This section is not about `swc` itself. But this is described at here because it's the cause of almost all trickyness of APIs.
+> 本节不是关于 `swc` 本身的。但在这里描述是因为它是几乎所有 API 复杂性的原因。
 
-In rust, only one variable can _own_ a data, and there's at most one mutable reference to it.
-Also, you need to _own_ the value or have a mutable reference to it if you want to modify the data.
+在 Rust 中，只有一个变量可以 _拥有_ 数据，并且最多只能有一个可变引用。
+此外，如果你想修改数据，你需要 _拥有_ 该值或拥有其可变引用。
 
-But there's at most one owner/mutable reference, so it means if you have a mutable reference to a value, other code cannot modify the value.
-Every update operation should performed by the code which _owns_ the value or has a mutable reference to it.
-So, some of babel APIs like `node.delete` is super tricky to implement.
-As your code has ownership or mutable refernce to _some_ part of AST, SWC cannot modify the AST.
+但最多只能有一个所有者/可变引用，所以这意味着如果你有一个值的可变引用，其他代码无法修改该值。
+每次更新操作都应该由 _拥有_ 该值或拥有其可变引用的代码执行。
+因此，像 `node.delete` 这样的 babel API 实现起来非常复杂。
+由于你的代码拥有或拥有 AST _某些_ 部分的可变引用，SWC 无法修改 AST。
 
-## Tricky operations
+## 复杂操作
 
-### Deleting node
+### 删除节点
 
-Let's say, we want to drop the variable named `bar` in the code below.
+假设我们想删除下面代码中名为 `bar` 的变量。
 
 ```js
 var foo = 1;
 var bar = 1;
 ```
 
-There are two ways to do this.
+有两种方法可以做到这一点。
 
-#### Mark & Delete
+#### 标记并删除
 
-The first way is to mark it as _invalid_ and delete it later.
-This is typically more convenient.
+第一种方法是将其标记为 _无效_ 并在稍后删除它。
+这通常更方便。
 
 ```rust
 use swc_core::ast::*;
@@ -282,25 +280,25 @@ use swc_core::visit::{VisitMut,VisitMutWith};
 
 impl VisitMut for Remover {
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
-        // This is not required in this example, but you typically need this.
+        // 在这个例子中不需要这个，但你通常需要这个。
         v.visit_mut_children_with(self);
 
-        // v.name is `Pat`.
-        // See https://rustdoc.swc.rs/swc_ecma_ast/enum.Pat.html
+        // v.name 是 `Pat`。
+        // 参见 https://rustdoc.swc.rs/swc_ecma_ast/enum.Pat.html
         match v.name {
-            // If we want to delete the node, we should return false.
+            // 如果我们想删除节点，我们应该返回 false。
             //
-            // Note the `&*` before i.sym.
-            // The type of symbol is `JsWord`, which is an interned string.
+            // 注意 `&*` 在 i.sym 之前。
+            // 符号的类型是 `JsWord`，这是一个内部化的字符串。
             Pat::Ident(i) => {
                 if &*i.sym == "bar" {
-                    // Take::take() is a helper function, which stores invalid value in the node.
-                    // For Pat, it's `Pat::Invalid`.
+                    // Take::take() 是一个辅助函数，它在节点中存储无效值。
+                    // 对于 Pat，它是 `Pat::Invalid`。
                     v.name.take();
                 }
             }
             _ => {
-                // Noop if we don't want to delete the node.
+                // 如果我们不想删除节点，则不执行任何操作。
             }
         }
     }
@@ -309,12 +307,12 @@ impl VisitMut for Remover {
         vars.visit_mut_children_with(self);
 
         vars.retain(|node| {
-            // We want to remove the node, so we should return false.
+            // 我们想删除节点，所以我们应该返回 false。
             if node.name.is_invalid() {
                 return false
             }
 
-            // Return true if we want to keep the node.
+            // 如果我们想保留节点，则返回 true。
             true
         });
     }
@@ -325,9 +323,9 @@ impl VisitMut for Remover {
         match s {
             Stmt::Decl(Decl::Var(var)) => {
                 if var.decls.is_empty() {
-                    // Variable declaration without declarator is invalid.
+                    // 没有声明器的变量声明是无效的。
                     //
-                    // After this, `s` becomes `Stmt::Empty`.
+                    // 在此之后，`s` 变为 `Stmt::Empty`。
                     s.take();
                 }
             }
@@ -338,10 +336,10 @@ impl VisitMut for Remover {
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         stmts.visit_mut_children_with(self);
 
-        // We remove `Stmt::Empty` from the statement list.
-        // This is optional, but it's required if you don't want extra `;` in output.
+        // 我们从语句列表中删除 `Stmt::Empty`。
+        // 这是可选的，但如果你不希望在输出中有额外的 `;`，则需要这样做。
         stmts.retain(|s| {
-            // We use `matches` macro as this match is trivial.
+            // 我们使用 `matches` 宏，因为这个匹配很简单。
             !matches!(s, Stmt::Empty(..))
         });
     }
@@ -349,21 +347,21 @@ impl VisitMut for Remover {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         stmts.visit_mut_children_with(self);
 
-        // This is also required, because top-level statements are stored in `Vec<ModuleItem>`.
+        // 这也是必需的，因为顶级语句存储在 `Vec<ModuleItem>` 中。
         stmts.retain(|s| {
-            // We use `matches` macro as this match is trivial.
+            // 我们使用 `matches` 宏，因为这个匹配很简单。
             !matches!(s, ModuleItem::Stmt(Stmt::Empty(..)))
         });
     }
 }
 ```
 
-#### Delete from the parent handler
+#### 从父处理程序中删除
 
-Another way to delete the node is deleting it from the parent handler.
-This can be useful if you want to delete the node only if the parent node is specific type.
+另一种删除节点的方法是从父处理程序中删除它。
+如果你只想在父节点是特定类型时删除节点，这可能很有用。
 
-e.g. You don't want to touch the variables in for loops while deleting free variable statements.
+例如，你不想在删除自由变量语句时触及 for 循环中的变量。
 
 ```rust
 use swc_core::ast::*;
@@ -373,7 +371,7 @@ struct Remover;
 
 impl VisitMut for Remover {
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        // This is not required in this example, but just to show that you typically need this.
+        // 在这个例子中不需要这个，但只是为了展示你通常需要这个。
         s.visit_mut_children_with(self);
 
         match s {
@@ -395,7 +393,7 @@ impl VisitMut for Remover {
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         stmts.visit_mut_children_with(self);
 
-        // We do same thing here.
+        // 我们在这里做同样的事情。
         stmts.retain(|s| {
             !matches!(s, Stmt::Empty(..))
         });
@@ -404,7 +402,7 @@ impl VisitMut for Remover {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         stmts.visit_mut_children_with(self);
 
-        // We do same thing here.
+        // 我们在这里做同样的事情。
         stmts.retain(|s| {
             !matches!(s, ModuleItem::Stmt(Stmt::Empty(..)))
         });
@@ -412,38 +410,38 @@ impl VisitMut for Remover {
 }
 ```
 
-### Referencing parent node from handler of child node
+### 从子节点的处理程序中引用父节点
 
-This includes usage of `paths` and `scope`.
+这包括 `paths` 和 `scope` 的使用。
 
-### Caching some information about an AST node
+### 缓存有关 AST 节点的一些信息
 
-You have two way to use informantion from a parent node.
-For first, you can precompute information from the parent node handler.
-Alternatively, you can clone the parent node and use it in the child node handler.
+你有两种方法可以使用来自父节点的信息。
+首先，你可以从父节点处理程序中预先计算信息。
+或者，你可以克隆父节点并在子节点处理程序中使用它。
 
-## Alternatives for babel APIs
+## Babel API 的替代方案
 
 ### `generateUidIdentifier`
 
-This returns a unique identifier with a monotonically increasing integer suffix.
-`swc` does not provide API to do this, because there's a very easy way to do this.
-You can store an integer field in transformer type and use it while calling `quote_ident!` or `private_ident!`.
+这会返回一个带有单调递增整数后缀的唯一标识符。
+`swc` 没有提供 API 来执行此操作，因为有一种非常简单的方法可以做到这一点。
+你可以在转换器类型中存储一个整数字段，并在调用 `quote_ident!` 或 `private_ident!` 时使用它。
 
 ```rust
 struct Example {
-    // You don't need to share counter.
+    // 你不需要共享计数器。
     cnt: usize
 }
 
 impl Example {
-    /// For properties, it's okay to use `quote_ident`.
+    /// 对于属性，可以使用 `quote_ident`。
     pub fn next_property_id(&mut self) -> Ident {
         self.cnt += 1;
         quote_ident!(format!("$_css_{}", self.cnt))
     }
 
-    /// If you want to create a safe variable, you should use `private_ident`
+    /// 如果你想创建一个安全的变量，你应该使用 `private_ident`
     pub fn next_variable_id(&mut self) -> Ident {
         self.cnt += 1;
         private_ident!(format!("$_css_{}", self.cnt))
@@ -453,12 +451,12 @@ impl Example {
 
 ### `path.find`
 
-Upward traversal is not supported by `swc`.
-It's because upward traversal requires storing information about parent at children nodes, which requires using types like `Arc` or `Mutex` in rust.
+`swc` 不支持向上遍历。
+这是因为向上遍历需要在子节点中存储有关父节点的信息，这需要在 Rust 中使用 `Arc` 或 `Mutex` 等类型。
 
-Instead of traversing upward, you should make it top-down.
-For example, if you want to infer name of a jsx component from variable assignments or assignments, you can store `name` of component while visiting `VarDecl` and/or `AssignExpr` and use it from the component handler.
+你应该将其改为自上而下。
+例如，如果你想从变量赋值或赋值中推断 jsx 组件的名称，你可以在访问 `VarDecl` 和/或 `AssignExpr` 时存储组件的 `name`，并在组件处理程序中使用它。
 
 ### `state.file.get`/`state.file.set`
 
-You can simply store the value in the transform struct as an instance of transform struct only process one file.
+你可以简单地将值存储在转换结构体中，因为转换结构体的实例只处理一个文件。

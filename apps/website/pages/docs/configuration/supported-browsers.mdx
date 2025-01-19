@@ -1,10 +1,10 @@
 import { Callout } from 'nextra-theme-docs'
 
-# Supported Browsers
+# 支持的浏览器
 
-Starting with `v1.1.10`, you can now use `browserslist` to automatically configure supported browsers.
+从 `v1.1.10` 开始，你现在可以使用 `browserslist` 自动配置支持的浏览器。
 
-## Usage
+## 用法
 
 ```json filename=".swcrc" copy
 {
@@ -18,13 +18,13 @@ Starting with `v1.1.10`, you can now use `browserslist` to automatically configu
 }
 ```
 
-## Options
+## 选项
 
 ### targets
 
-`string | Array<string> | { [string]: string }`, defaults to `{}`.
+`string | Array<string> | { [string]: string }`，默认为 `{}`。
 
-Describes the environments you support/target for your project. This can either be a [browserslist-compatible](https://github.com/ai/browserslist) query [(with limitations)](https://github.com/browserslist/browserslist-rs#limitations):
+描述你项目支持/目标的环境。这可以是一个 [browserslist-compatible](https://github.com/ai/browserslist) 查询 [(有局限性)](https://github.com/browserslist/browserslist-rs#limitations):
 
 ```json filename=".swcrc" copy
 {
@@ -34,7 +34,7 @@ Describes the environments you support/target for your project. This can either 
 }
 ```
 
-Or an object of minimum environment versions to support:
+或者是一个对象，表示要支持的最低环境版本：
 
 ```json filename=".swcrc" copy
 {
@@ -47,7 +47,7 @@ Or an object of minimum environment versions to support:
 }
 ```
 
-Example environments:
+示例环境：
 
 - `chrome`
 - `opera`
@@ -60,26 +60,26 @@ Example environments:
 - `node`
 - `electron`
 
-If `targets` is not specified, SWC uses `browserslist` to get target information.
+如果未指定 `targets`，SWC 会使用 `browserslist` 获取目标信息。
 
 ### path
 
-- `string`, defaults to current directory.
-- `path` specifies the directory to load the `browserslist` module and any browserslist configuration files. For example, `.browserslistrc` or `browserslist` field in package.json. This can be useful if your build system isn't in the root of your project.
+- `string`，默认为当前目录。
+- `path` 指定加载 `browserslist` 模块和任何 browserslist 配置文件的目录。例如，`.browserslistrc` 或 package.json 中的 `browserslist` 字段。如果你的构建系统不在项目的根目录中，这可能很有用。
 
 ### mode
 
-- `string`, defaults to `undefined`.
-- Possible values: `usage`, `entry`, `undefined` (this matches [`useBuiltIns`](https://babeljs.io/docs/en/babel-preset-env#usebuiltins) from Babel)
+- `string`，默认为 `undefined`。
+- 可能的值：`usage`, `entry`, `undefined`（这与 Babel 的 [`useBuiltIns`](https://babeljs.io/docs/en/babel-preset-env#usebuiltins) 匹配）
 
 <Callout emoji="⚠️">
-  The <code>usage</code> mode is currently not as efficient as Babel, iff you have a usage like `"foo"["a" + "t"]()`.
-  SWC does not evaluate the expression <code>"a" + "t"</code> and will not include the <code>String.prototype.at</code> polyfill.
+  <code>usage</code> 模式目前不如 Babel 高效，如果你有类似 `"foo"["a" + "t"]()` 的用法。
+  SWC 不会评估表达式 <code>"a" + "t"</code>，也不会包含 <code>String.prototype.at</code> 的 polyfill。
 </Callout>
 
 ### skip
 
-Define ES features to skip to reduce bundle size. For example, your `.swcrc` could be:
+定义要跳过的 ES 功能以减少包大小。例如，你的 `.swcrc` 可以是：
 
 ```json filename=".swcrc" copy
 {
@@ -91,17 +91,17 @@ Define ES features to skip to reduce bundle size. For example, your `.swcrc` cou
 
 ### coreJs
 
-- `string`, defaults to `undefined`.
-- `coreJs` specifies the version of `core-js` to use, can be any core-js versions supported by swc. E.g., `"3.22"`.
+- `string`，默认为 `undefined`。
+- `coreJs` 指定要使用的 `core-js` 版本，可以是 swc 支持的任何 core-js 版本。例如，`"3.22"`。
 
-The option has an effect when used alongside `mode: "usage"` or `mode: "entry"`. It is recommended to specify the minor version (E.g. `"3.22"`) otherwise `"3"` will be interpreted as `"3.0"` which may not include polyfills for the latest features.
+该选项在与 `mode: "usage"` 或 `mode: "entry"` 一起使用时生效。建议指定次要版本（例如 `"3.22"`），否则 `"3"` 将被解释为 `"3.0"`，这可能不包括最新功能的 polyfill。
 
-## Additional Options
+## 其他选项
 
-- `debug`: (_boolean_) defaults to `false`.
-- `dynamicImport`: (_boolean_) defaults to `false`.
-- `loose`: (_boolean_) defaults to `false`. Enable [loose transformations](http://2ality.com/2015/12/babel6-loose-mode.html) for any plugins that allow them.
-- `include`: (_string[]_) can be a `core-js` module (`es.math.sign`) or an SWC pass (`transform-spread`).
-- `exclude`: (_string[]_) can be a `core-js` module (`es.math.sign`) or an SWC pass (`transform-spread`).
-- `shippedProposals`: (_boolean_) defaults to `false`.
-- `forceAllTransforms`: (_boolean_) defaults to `false`. Enable all possible transforms.
+- `debug`: (_boolean_) 默认为 `false`。
+- `dynamicImport`: (_boolean_) 默认为 `false`。
+- `loose`: (_boolean_) 默认为 `false`。为任何允许的插件启用 [松散转换](http://2ality.com/2015/12/babel6-loose-mode.html)。
+- `include`: (_string[]_) 可以是 `core-js` 模块（`es.math.sign`）或 SWC 传递（`transform-spread`）。
+- `exclude`: (_string[]_) 可以是 `core-js` 模块（`es.math.sign`）或 SWC 传递（`transform-spread`）。
+- `shippedProposals`: (_boolean_) 默认为 `false`。
+- `forceAllTransforms`: (_boolean_) 默认为 `false`。启用所有可能的转换。

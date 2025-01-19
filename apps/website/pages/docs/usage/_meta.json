@@ -5,5 +5,5 @@
   "jest": "@swc/jest",
   "swc-loader": "swc-loader",
   "html": "@swc/html",
-  "bundling": "Bundling"
+  "bundling": "打包"
 }

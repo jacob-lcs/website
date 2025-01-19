@@ -65,7 +65,7 @@ const Head = () => {
       />
       <meta
         name="og:title"
-        content={title ? title + " – SWC" : "SWC: Speedy Web Compiler"}
+        content={title ? title + " – SWC" : "SWC: 极速 web 编译器"}
       />
       <meta
         name="og:image"
@@ -92,7 +92,8 @@ export default {
   editLink: {
     text: "Edit this page on GitHub",
   },
-  docsRepositoryBase: "https://github.com/swc-project/website/blob/main/apps/website",
+  docsRepositoryBase:
+    "https://github.com/swc-project/website/blob/main/apps/website",
   useNextSeoProps() {
     return {
       titleTemplate: "%s – SWC",
@@ -109,7 +110,7 @@ export default {
         SWC
       </span>
       <span className="text-gray-600 font-normal hidden lg:!inline whitespace-no-wrap">
-        Speedy Web Compiler
+        极速 web 编译器
       </span>
     </>
   ),
