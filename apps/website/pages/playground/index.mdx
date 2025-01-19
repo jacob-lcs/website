@@ -3,7 +3,7 @@ title: SWC Playground
 ---
 
 <iframe
-  src="https://play.swc.rs"
+  src="https://play.swc.net.cn"
   style={{
     width: '100%',
     height: 'calc(100vh - 64px)',
